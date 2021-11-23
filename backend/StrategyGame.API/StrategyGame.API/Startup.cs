@@ -35,6 +35,8 @@ namespace StrategyGame.API
 
             services.ConfigureAuthentication(Configuration);
 
+            services.ConfigureStores();
+
             services.ConfigureIdentity();
 
             services.ConfigureSwagger();
