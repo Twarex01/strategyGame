@@ -10,7 +10,7 @@ using StrategyGame.Infrastructure;
 namespace StrategyGame.Infrastructure.Migrations
 {
     [DbContext(typeof(StrategyGameDbContext))]
-    [Migration("20211123134238_Init")]
+    [Migration("20211123142707_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

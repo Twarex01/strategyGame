@@ -18,10 +18,9 @@ namespace Microsoft.AspNetCore.Hosting
                 var configuration = services.GetService<IConfiguration>();
                 var seed = configuration.GetValue<bool>("Seed");
 
-                //TODO: auto-migration
-                //var dbContext = services.GetRequiredService<DbContext>();
+                var dbContext = services.GetRequiredService<DbContext>();
 
-                //dbContext.Database.Migrate();
+                dbContext.Database.Migrate();
 
                 if (seed)
                 {
