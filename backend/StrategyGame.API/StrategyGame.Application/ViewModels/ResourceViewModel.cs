@@ -9,7 +9,7 @@ namespace StrategyGame.Application.ViewModels
 {
     public class ResourceViewModel
     {
-        public Resource Name { get; set; }
+        public ResourceType Name { get; set; }
 
         public int Amount { get; set; }
     }

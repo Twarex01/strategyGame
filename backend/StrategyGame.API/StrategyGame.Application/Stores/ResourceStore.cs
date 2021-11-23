@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StrategyGame.Common.Stores;
-using StrategyGame.Domain;
-using StrategyGame.Entities.Domain;
+using StrategyGame.Domain.Game;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace StrategyGame.Application.Stores
 {
-    public class StrategyGameUserStore : EntityStore<StrategyGameUser>
+    public class ResourceStore : EntityStore<Resource>
     {
-        public StrategyGameUserStore(DbContext dbContext) : base(dbContext)
+        public ResourceStore(DbContext dbContext) : base(dbContext)
         {
         }
     }

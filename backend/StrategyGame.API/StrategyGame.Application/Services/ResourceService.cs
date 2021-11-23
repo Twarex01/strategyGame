@@ -3,6 +3,7 @@ using StrategyGame.Application.ViewModels;
 using StrategyGame.Common.Claims;
 using StrategyGame.Common.Stores;
 using StrategyGame.Domain;
+using StrategyGame.Entities.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;

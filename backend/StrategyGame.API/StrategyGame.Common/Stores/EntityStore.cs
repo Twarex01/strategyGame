@@ -28,5 +28,15 @@ namespace StrategyGame.Common.Stores
 
             return query;
         }
+
+        public void Add(TEntity entity)
+        {
+            dbContext.Add(entity);
+        }
+
+        public async Task<int> SaveChanges(CancellationToken cancellationToken = default)
+        {
+            return await dbContext.SaveChangesAsync(cancellationToken);
+        }
     }
 }

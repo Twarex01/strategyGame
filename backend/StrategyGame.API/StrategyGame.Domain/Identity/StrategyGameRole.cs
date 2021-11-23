@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StrategyGame.Domain
+namespace StrategyGame.Entities.Domain
 {
     public class StrategyGameRole : IdentityRole<Guid>
     {

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using StrategyGame.Domain;
+using StrategyGame.Entities.Domain;
 using StrategyGame.Infrastructure;
 
 namespace Microsoft.Extensions.DependencyInjection

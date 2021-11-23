@@ -8,6 +8,7 @@ using StrategyGame.Application.ServiceInterfaces;
 using StrategyGame.Application.ViewModels;
 using StrategyGame.Common.Constants;
 using StrategyGame.Domain;
+using StrategyGame.Entities.Domain;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
