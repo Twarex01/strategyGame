@@ -16,7 +16,10 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection ConfigureStores(this IServiceCollection services)
         {
             services.AddScoped<IEntityStore<StrategyGameUser>, StrategyGameUserStore>();
+
             services.AddScoped<IEntityStore<Resource>, ResourceStore>();
+            services.AddScoped<IEntityStore<Building>, BuildingStore>();
+            services.AddScoped<IEntityStore<BuildingData>, BuildingDataStore>();
 
             return services;
         }

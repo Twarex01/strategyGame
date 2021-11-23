@@ -17,6 +17,8 @@ namespace StrategyGame.Infrastructure
         StrategyGameUser, StrategyGameRole, Guid, IdentityUserClaim<Guid>, StrategyGameUserRole, IdentityUserLogin<Guid>, IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>
     {
         public DbSet<Resource> Resources { get; set; }
+        public DbSet<Building> Buildings { get; set; }
+        public DbSet<BuildingData> BuildingDatas { get; set; }
 
         public StrategyGameDbContext(DbContextOptions<StrategyGameDbContext> options) : base(options)
         {

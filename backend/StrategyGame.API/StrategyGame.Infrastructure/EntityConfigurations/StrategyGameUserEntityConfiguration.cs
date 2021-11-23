@@ -17,6 +17,8 @@ namespace StrategyGame.Infrastructure.EntityConfigurations
             builder.HasKey(x => x.Id);
 
             builder.HasMany(x => x.Resources).WithOne().HasForeignKey(x => x.PlayerId);
+
+            builder.HasMany(x => x.Buildings).WithOne().HasForeignKey(x => x.PlayerId);
         }
     }
 }
