@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StrategyGame.Common.Enums
 {
-    public enum Resource
+    public enum ResourceType
     {
         Gold,
         Wood,

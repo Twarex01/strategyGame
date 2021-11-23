@@ -26,7 +26,7 @@ namespace Microsoft.AspNetCore.Hosting
                 {
                     var seeder = services.GetService<ISeeder>();
 
-                    await seeder.SeedUsersWithRoles();
+                    await seeder.SeedGame();
                 }
             }
 

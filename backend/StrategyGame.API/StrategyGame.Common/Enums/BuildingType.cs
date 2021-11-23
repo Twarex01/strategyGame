@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StrategyGame.Seeder
+namespace StrategyGame.Common.Enums
 {
-    public interface ISeeder
+    public enum BuildingType
     {
-        Task SeedGame();
+        Mill
     }
 }

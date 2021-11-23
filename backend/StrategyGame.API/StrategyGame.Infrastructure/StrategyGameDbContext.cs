@@ -2,9 +2,12 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using StrategyGame.Domain;
+using StrategyGame.Domain.Game;
+using StrategyGame.Entities.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,8 +16,19 @@ namespace StrategyGame.Infrastructure
     public class StrategyGameDbContext : IdentityDbContext<
         StrategyGameUser, StrategyGameRole, Guid, IdentityUserClaim<Guid>, StrategyGameUserRole, IdentityUserLogin<Guid>, IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>
     {
+        public DbSet<Resource> Resources { get; set; }
+        public DbSet<Building> Buildings { get; set; }
+        public DbSet<BuildingData> BuildingDatas { get; set; }
+
         public StrategyGameDbContext(DbContextOptions<StrategyGameDbContext> options) : base(options)
         {
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
 }

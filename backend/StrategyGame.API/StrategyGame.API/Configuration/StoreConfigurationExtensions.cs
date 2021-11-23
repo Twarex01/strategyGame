@@ -2,6 +2,8 @@
 using StrategyGame.Application.Stores;
 using StrategyGame.Common.Stores;
 using StrategyGame.Domain;
+using StrategyGame.Domain.Game;
+using StrategyGame.Entities.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +16,10 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection ConfigureStores(this IServiceCollection services)
         {
             services.AddScoped<IEntityStore<StrategyGameUser>, StrategyGameUserStore>();
+
+            services.AddScoped<IEntityStore<Resource>, ResourceStore>();
+            services.AddScoped<IEntityStore<Building>, BuildingStore>();
+            services.AddScoped<IEntityStore<BuildingData>, BuildingDataStore>();
 
             return services;
         }

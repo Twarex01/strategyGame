@@ -12,5 +12,9 @@ namespace StrategyGame.Common.Stores
         Task<TEntity> GetEntity(Guid id, bool asTracking = true, CancellationToken cancellationToken = default);
 
         IQueryable<TEntity> GetQuery(bool asTracking = true);
+
+        void Add(TEntity entity);
+
+        Task<int> SaveChanges(CancellationToken cancellationToken = default);
     }
 }
