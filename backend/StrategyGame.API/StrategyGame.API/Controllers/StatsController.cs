@@ -20,7 +20,7 @@ namespace StrategyGame.API.Controllers
         {
         }
 
-        [HttpGet("scoreBoard")]
+        [HttpGet("score/all")]
         public Task<IEnumerable<ScoreBoardViewModel>> GetScoreBoard(CancellationToken cancellationToken)
         {
             throw new NotImplementedException();

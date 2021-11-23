@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StrategyGame.Application.ServiceInterfaces
 {
-    class IBattleService
+    public interface IBattleService
     {
     }
 }

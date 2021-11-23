@@ -16,7 +16,7 @@ namespace StrategyGame.API.Controllers
     [ApiController]
     public class UserController : Controller
     {
-        IUserService userService;
+        private readonly IUserService userService;
 
         public UserController(IUserService userService)
         {

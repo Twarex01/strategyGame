@@ -13,6 +13,11 @@ namespace Microsoft.Extensions.DependencyInjection
             this IServiceCollection services, IConfiguration Configuration, bool isDevelopment)
         {
             //TODO: Different configuration extensions
+            services.AddScoped<IBattleService, BattleService>();
+            services.AddScoped<ICommandService, CommandService>();
+            services.AddScoped<IResourceService, ResourceService>();
+            services.AddScoped<IRoundService, RoundService>();
+            services.AddScoped<IStatsService, StatsService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ISeeder, Seeder>();
 

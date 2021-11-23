@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using StrategyGame.Application.Dtos;
 using StrategyGame.Application.ServiceInterfaces;
 using StrategyGame.Application.ViewModels;
+using StrategyGame.Common.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +17,21 @@ namespace StrategyGame.API.Controllers
     [ApiController]
     public class ResourceController : Controller
     {
-        public ResourceController()
+        private readonly IResourceService resourceService;
+
+        public ResourceController(IResourceService resourceService)
         {
+            this.resourceService = resourceService;
+        }
+
+        [HttpGet("all")]
+        public Task<IEnumerable<ResourceViewModel>> GetResources(CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
 
         [HttpGet]
-        public Task<int> GetRound(CancellationToken cancellationToken)
+        public Task<IEnumerable<ResourceViewModel>> GetResource(Resource resource, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
