@@ -33,7 +33,7 @@ namespace StrategyGame.API
 
             services.ConfigureAuthentication(Configuration);
 
-            //services.ConfigureIdentity();
+            services.ConfigureIdentity();
 
             services.ConfigureSwagger();
         }
