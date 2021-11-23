@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using StrategyGame.Application.Dtos;
 using StrategyGame.Application.Options;
@@ -24,10 +26,11 @@ namespace StrategyGame.Application.Services
 
         private readonly JwtTokenOptions jwtTokenOptions;
 
-        public UserService(SignInManager<StrategyGameUser> signInManager, UserManager<StrategyGameUser> userManager)
+        public UserService(SignInManager<StrategyGameUser> signInManager, UserManager<StrategyGameUser> userManager, IOptionsSnapshot<JwtTokenOptions> jwtTokenOptionsSnapshot)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
+            this.jwtTokenOptions = jwtTokenOptionsSnapshot.Value;
         }
 
         public async Task<LoginViewModel> LoginUser(LoginDto loginDto, CancellationToken cancellationToken)

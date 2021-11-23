@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using StrategyGame.Application.ServiceInterfaces;
 using StrategyGame.Application.Services;
 using StrategyGame.Infrastructure;
+using StrategyGame.Seeder;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -13,6 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             //TODO: Different configuration extensions
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ISeeder, Seeder>();
 
             services.AddDbContext<DbContext, StrategyGameDbContext>(options =>
                 options.UseSqlServer(

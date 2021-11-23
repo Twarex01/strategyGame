@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\StrategyGame.Application\StrategyGame.Application.csproj" />
     <ProjectReference Include="..\StrategyGame.Infrastructure\StrategyGame.Infrastructure.csproj" />
+    <ProjectReference Include="..\StrategyGame.Seeder\StrategyGame.Seeder.csproj" />
   </ItemGroup>
 
 </Project>

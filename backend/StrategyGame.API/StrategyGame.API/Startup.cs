@@ -29,6 +29,8 @@ namespace StrategyGame.API
 
             services.ConfigureStrategyGameContext(Configuration, HostEnvironment.IsDevelopment());
 
+            services.ConfigureAppsettings(Configuration);
+
             services.AddControllers();
 
             services.ConfigureAuthentication(Configuration);

@@ -9,8 +9,5 @@ namespace StrategyGame.Domain
 {
     public class StrategyGameUserRole : IdentityUserRole<Guid>
     {
-        public StrategyGameUser HonvedUser { get; set; }
-
-        public StrategyGameRole HonvedRole { get; set; }
     }
 }
