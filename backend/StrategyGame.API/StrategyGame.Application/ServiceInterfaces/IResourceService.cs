@@ -10,6 +10,6 @@ namespace StrategyGame.Application.ServiceInterfaces
 {
     public interface IResourceService
     {
-        IEnumerable<ResourceViewModel> GetAllResources(CancellationToken cancellationToken);
+        Task<IEnumerable<ResourceViewModel>> GetAllResources(CancellationToken cancellationToken);
     }
 }

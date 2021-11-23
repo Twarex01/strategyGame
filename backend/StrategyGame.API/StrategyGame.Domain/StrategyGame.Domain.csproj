@@ -7,5 +7,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.12" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StrategyGame.Common\StrategyGame.Common.csproj" />
+  </ItemGroup>
   
 </Project>

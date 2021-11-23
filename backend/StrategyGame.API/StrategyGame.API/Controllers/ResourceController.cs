@@ -27,7 +27,7 @@ namespace StrategyGame.API.Controllers
         [HttpGet("all")]
         public Task<IEnumerable<ResourceViewModel>> GetResources(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return resourceService.GetAllResources(cancellationToken);
         }
 
         [HttpGet]
