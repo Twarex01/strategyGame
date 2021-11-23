@@ -31,6 +31,10 @@ namespace StrategyGame.API
 
             services.AddControllers();
 
+            services.ConfigureAuthentication(Configuration);
+
+            //services.ConfigureIdentity();
+
             services.ConfigureSwagger();
         }
 
