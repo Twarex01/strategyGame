@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace StrategyGame.Application.ViewModels
 {
-    public class ScoreBoardViewModel
+    public class ScoreboardViewModel
     {
+        public string PlayerEmail { get; set; }
+
+        public int Score { get; set; }
     }
 }

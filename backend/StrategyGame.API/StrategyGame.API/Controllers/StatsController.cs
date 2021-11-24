@@ -16,20 +16,23 @@ namespace StrategyGame.API.Controllers
     [ApiController]
     public class StatsController : Controller
     {
-        public StatsController()
+        private readonly IStatsService statsService;
+
+        public StatsController(IStatsService statsService)
         {
+            this.statsService = statsService;
         }
 
         [HttpGet("score/all")]
-        public Task<IEnumerable<ScoreBoardViewModel>> GetScoreBoard(CancellationToken cancellationToken)
+        public Task<IEnumerable<ScoreboardViewModel>> GetScoreboard(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return statsService.GetScoreboard(cancellationToken);
         }
 
         [HttpGet("score")]
         public Task<int> GetScore(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return statsService.GetScore(cancellationToken);
         }
 
         [HttpGet("place")]
