@@ -8,6 +8,6 @@ namespace StrategyGame.Common.Enums
 {
     public enum BuildingType
     {
-        Mill
+        Factory
     }
 }

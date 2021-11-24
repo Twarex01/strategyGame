@@ -10,6 +10,11 @@ namespace StrategyGame.Domain.Game
         public Guid Id { get; set; }
 
         public BuildingType Type { get; set; }
+
+        public int Value { get; set; }
+
+        public Guid? FactoryParametersId { get; set; }
+        public FactoryParameters? FactoryParameters { get; set; }
         
         public IEnumerable<BuildingPrice> Cost { get; set; } = default!;
     }

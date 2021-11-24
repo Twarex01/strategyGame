@@ -16,8 +16,11 @@ namespace StrategyGame.API.Controllers
     [ApiController]
     public class CommandController : Controller
     {
-        public CommandController()
+        private readonly ICommandService commandService;
+
+        public CommandController(ICommandService commandService)
         {
+            this.commandService = commandService;
         }
 
         [HttpPost("build")]
@@ -26,10 +29,22 @@ namespace StrategyGame.API.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpPost("capture")]
-        public Task PostCapture(CancellationToken cancellationToken)
+        [HttpGet("build/buildings")]
+        public Task GetBuildings(CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
+        }
+
+        [HttpPost("gather")]
+        public async Task PostGather([FromBody] GatheringActionDto gatheringActionDto, CancellationToken cancellationToken)
+        {
+            await commandService.StartGatheringAction(gatheringActionDto, cancellationToken);
+        }
+
+        [HttpGet("gather/actions")]
+        public async Task<IEnumerable<GatheringViewModel>> GetActions(CancellationToken cancellationToken)
+        {
+            return await commandService.QueryGatheringActions(cancellationToken);
         }
 
         [HttpPost("attack")]

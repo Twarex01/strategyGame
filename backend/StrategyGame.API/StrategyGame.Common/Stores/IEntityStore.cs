@@ -11,6 +11,8 @@ namespace StrategyGame.Common.Stores
     {
         Task<TEntity> GetEntity(Guid id, bool asTracking = true, CancellationToken cancellationToken = default);
 
+        Task<TEntity> SingleOrDefault(bool asTracking = true, CancellationToken cancellationToken = default);
+
         IQueryable<TEntity> GetQuery(bool asTracking = true);
 
         void Add(TEntity entity);

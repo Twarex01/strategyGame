@@ -16,14 +16,24 @@ namespace StrategyGame.API.Controllers
     [ApiController]
     public class RoundController : Controller
     {
-        public RoundController()
+        private readonly IRoundService roundService;
+
+        public RoundController(IRoundService roundService)
         {
+            this.roundService = roundService;
         }
 
         [HttpGet]
-        public Task<int> GetRound(CancellationToken cancellationToken)
+        public async Task<int> GetRound(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return await roundService.GetRound(cancellationToken);
+        }
+
+        //until hangfire
+        [HttpPost("end")]
+        public async Task PostEndRound(CancellationToken cancellationToken)
+        {
+            await roundService.EndRound(cancellationToken);
         }
     }
 }

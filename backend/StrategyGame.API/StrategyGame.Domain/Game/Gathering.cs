@@ -1,5 +1,4 @@
-﻿using StrategyGame.Common.Enums;
-using StrategyGame.Common.Stores;
+﻿using StrategyGame.Common.Stores;
 using StrategyGame.Entities.Domain;
 using System;
 using System.Collections.Generic;
@@ -9,17 +8,19 @@ using System.Threading.Tasks;
 
 namespace StrategyGame.Domain.Game
 {
-    public class Resource : IEntity
+    public class Gathering : IEntity
     {
         public Guid Id { get; set; }
 
         public Guid StrategyGameUserId { get; set; }
         public StrategyGameUser StrategyGameUser { get; set; }
 
-        public int Amount { get; set; }
+        public int TimeLeft { get; set; }
 
-        public Guid ResourceDataId { get; set; }
+        public int CalcualtedReward { get; set; }
 
-        public ResourceData ResourceData { get; set; }
+        public Guid GatheringDataId { get; set; }
+
+        public GatheringData GatheringData { get; set; }
     }
 }

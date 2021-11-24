@@ -1,5 +1,6 @@
 ﻿using StrategyGame.Common.Enums;
 using StrategyGame.Common.Stores;
+using StrategyGame.Entities.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace StrategyGame.Domain.Game
     {
         public Guid Id { get; set; }
 
-        public Guid PlayerId { get; set; }
+        public Guid StrategyGameUserId { get; set; }
+        public StrategyGameUser StrategyGameUser { get; set; }
 
         public int Amount { get; set; }
 

@@ -16,9 +16,11 @@ namespace StrategyGame.Infrastructure.EntityConfigurations
         {
             builder.HasKey(x => x.Id);
 
-            builder.HasMany(x => x.Resources).WithOne().HasForeignKey(x => x.PlayerId);
+            builder.HasMany(x => x.Resources).WithOne(x => x.StrategyGameUser).HasForeignKey(x => x.StrategyGameUserId);
 
-            builder.HasMany(x => x.Buildings).WithOne().HasForeignKey(x => x.PlayerId);
+            builder.HasMany(x => x.Buildings).WithOne(x => x.StrategyGameUser).HasForeignKey(x => x.StrategyGameUserId);
+
+            builder.HasMany(x => x.Gatherings).WithOne(x => x.StrategyGameUser).HasForeignKey(x => x.StrategyGameUserId);
         }
     }
 }
