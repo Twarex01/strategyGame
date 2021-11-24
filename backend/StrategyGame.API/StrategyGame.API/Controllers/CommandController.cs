@@ -56,9 +56,9 @@ namespace StrategyGame.API.Controllers
         }
 
         [HttpPost("trade")]
-        public async Task PostTrade([FromBody] TradeActionDto tradeActionDto, CancellationToken cancellationToken)
+        public async Task<TradeResultViewModel> PostTrade([FromBody] TradeActionDto tradeActionDto, CancellationToken cancellationToken)
         {
-            await commandService.StartTradeAction(tradeActionDto, cancellationToken);
+            return await commandService.StartTradeAction(tradeActionDto, cancellationToken);
         }
 
         [HttpPost("attack")]
