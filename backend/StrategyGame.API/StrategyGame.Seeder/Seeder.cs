@@ -88,7 +88,7 @@ namespace StrategyGame.Seeder
 
             foreach (var resourceData in allResourceData)
             {
-                resourceStore.Add(new Resource { Amount = 0, ResourceDataId = resourceData.Id, StrategyGameUserId = userId });
+                resourceStore.Add(new Resource { Amount = 10, ResourceDataId = resourceData.Id, StrategyGameUserId = userId });
             }
 
             await resourceStore.SaveChanges();

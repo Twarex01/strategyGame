@@ -34,7 +34,7 @@ namespace StrategyGame.Application.Services
 
         public async Task LaunchAttack(AttackActionDto attackActionDto, CancellationToken cancellationToken)
         {
-            var allPlayers = strategyGameUserStore.GetQuery(false).Include(x => x.Resources).ThenInclude(x => x.ResourceData);
+            var allPlayers = strategyGameUserStore.GetQuery(true).Include(x => x.Resources).ThenInclude(x => x.ResourceData);
 
             var userId = claimService.GetUserId();
 
