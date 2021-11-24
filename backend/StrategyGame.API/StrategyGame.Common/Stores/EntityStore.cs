@@ -22,6 +22,11 @@ namespace StrategyGame.Common.Stores
             return await GetQuery(asTracking).SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
+        public async Task<TEntity> SingleOrDefault(bool asTracking = true, CancellationToken cancellationToken = default)
+        {
+            return await GetQuery(asTracking).SingleOrDefaultAsync(cancellationToken);
+        }
+
         public IQueryable<TEntity> GetQuery(bool asTracking = true)
         {
             var query = dbContext.Set<TEntity>().AsTracking(asTracking ? QueryTrackingBehavior.TrackAll : QueryTrackingBehavior.NoTracking);

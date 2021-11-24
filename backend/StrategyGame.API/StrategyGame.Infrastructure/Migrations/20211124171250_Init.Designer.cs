@@ -10,7 +10,7 @@ using StrategyGame.Infrastructure;
 namespace StrategyGame.Infrastructure.Migrations
 {
     [DbContext(typeof(StrategyGameDbContext))]
-    [Migration("20211123182447_Init")]
+    [Migration("20211124171250_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -107,6 +107,29 @@ namespace StrategyGame.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("StrategyGame.Domain.Game.Battle", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AtkPlayer")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AtkPower")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("DefPlayer")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("TimeLeft")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Battles");
+                });
+
             modelBuilder.Entity("StrategyGame.Domain.Game.Building", b =>
                 {
                     b.Property<Guid>("Id")
@@ -119,12 +142,14 @@ namespace StrategyGame.Infrastructure.Migrations
                     b.Property<Guid>("BuildingDataId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("PlayerId")
+                    b.Property<Guid>("StrategyGameUserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BuildingDataId");
+
+                    b.HasIndex("StrategyGameUserId");
 
                     b.ToTable("Buildings");
                 });
@@ -135,10 +160,18 @@ namespace StrategyGame.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("FactoryParametersId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
+                    b.Property<int>("Value")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("FactoryParametersId");
 
                     b.ToTable("BuildingDatas");
                 });
@@ -161,6 +194,76 @@ namespace StrategyGame.Infrastructure.Migrations
                     b.ToTable("BuildingPrice");
                 });
 
+            modelBuilder.Entity("StrategyGame.Domain.Game.FactoryParameter", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("PassiveIncome")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ResourceType")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FactoryParameter");
+                });
+
+            modelBuilder.Entity("StrategyGame.Domain.Game.Gathering", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("CalcualtedReward")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("GatheringDataId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("StrategyGameUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("TimeLeft")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GatheringDataId");
+
+                    b.HasIndex("StrategyGameUserId");
+
+                    b.ToTable("Gatherings");
+                });
+
+            modelBuilder.Entity("StrategyGame.Domain.Game.GatheringData", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("MaxTimeAllowed")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaximumBaseReward")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinimumBaseReward")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TimeMultiplier")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GatheringDatas");
+                });
+
             modelBuilder.Entity("StrategyGame.Domain.Game.Resource", b =>
                 {
                     b.Property<Guid>("Id")
@@ -170,22 +273,92 @@ namespace StrategyGame.Infrastructure.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("PlayerId")
+                    b.Property<Guid>("ResourceDataId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("StrategyGameUserId")
+                    b.Property<Guid>("StrategyGameUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ResourceDataId");
+
+                    b.HasIndex("StrategyGameUserId");
+
+                    b.ToTable("Resources");
+                });
+
+            modelBuilder.Entity("StrategyGame.Domain.Game.ResourceData", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
+                    b.Property<int>("Value")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("PlayerId");
+                    b.ToTable("ResourceDatas");
+                });
+
+            modelBuilder.Entity("StrategyGame.Domain.Game.Round", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Current")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Round");
+                });
+
+            modelBuilder.Entity("StrategyGame.Domain.Game.Scoreboard", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("StrategyGameUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("StrategyGameUserId");
 
-                    b.ToTable("Resources");
+                    b.ToTable("Scoreboard");
+                });
+
+            modelBuilder.Entity("StrategyGame.Domain.Game.TradeData", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("RequiredResource")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReturnMultiplier")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RewardResource")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RiskPercentage")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TradeDatas");
                 });
 
             modelBuilder.Entity("StrategyGame.Entities.Domain.StrategyGameRole", b =>
@@ -341,7 +514,24 @@ namespace StrategyGame.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("StrategyGame.Entities.Domain.StrategyGameUser", "StrategyGameUser")
+                        .WithMany("Buildings")
+                        .HasForeignKey("StrategyGameUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("BuildingData");
+
+                    b.Navigation("StrategyGameUser");
+                });
+
+            modelBuilder.Entity("StrategyGame.Domain.Game.BuildingData", b =>
+                {
+                    b.HasOne("StrategyGame.Domain.Game.FactoryParameter", "FactoryParameters")
+                        .WithMany()
+                        .HasForeignKey("FactoryParametersId");
+
+                    b.Navigation("FactoryParameters");
                 });
 
             modelBuilder.Entity("StrategyGame.Domain.Game.BuildingPrice", b =>
@@ -351,17 +541,53 @@ namespace StrategyGame.Infrastructure.Migrations
                         .HasForeignKey("BuildingDataId");
                 });
 
-            modelBuilder.Entity("StrategyGame.Domain.Game.Resource", b =>
+            modelBuilder.Entity("StrategyGame.Domain.Game.Gathering", b =>
                 {
-                    b.HasOne("StrategyGame.Entities.Domain.StrategyGameUser", null)
-                        .WithMany("Buildings")
-                        .HasForeignKey("PlayerId")
+                    b.HasOne("StrategyGame.Domain.Game.GatheringData", "GatheringData")
+                        .WithMany()
+                        .HasForeignKey("GatheringDataId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("StrategyGame.Entities.Domain.StrategyGameUser", null)
+                    b.HasOne("StrategyGame.Entities.Domain.StrategyGameUser", "StrategyGameUser")
+                        .WithMany("Gatherings")
+                        .HasForeignKey("StrategyGameUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GatheringData");
+
+                    b.Navigation("StrategyGameUser");
+                });
+
+            modelBuilder.Entity("StrategyGame.Domain.Game.Resource", b =>
+                {
+                    b.HasOne("StrategyGame.Domain.Game.ResourceData", "ResourceData")
+                        .WithMany()
+                        .HasForeignKey("ResourceDataId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StrategyGame.Entities.Domain.StrategyGameUser", "StrategyGameUser")
                         .WithMany("Resources")
-                        .HasForeignKey("StrategyGameUserId");
+                        .HasForeignKey("StrategyGameUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ResourceData");
+
+                    b.Navigation("StrategyGameUser");
+                });
+
+            modelBuilder.Entity("StrategyGame.Domain.Game.Scoreboard", b =>
+                {
+                    b.HasOne("StrategyGame.Entities.Domain.StrategyGameUser", "StrategyGameUser")
+                        .WithMany()
+                        .HasForeignKey("StrategyGameUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("StrategyGameUser");
                 });
 
             modelBuilder.Entity("StrategyGame.Entities.Domain.StrategyGameUserRole", b =>
@@ -387,6 +613,8 @@ namespace StrategyGame.Infrastructure.Migrations
             modelBuilder.Entity("StrategyGame.Entities.Domain.StrategyGameUser", b =>
                 {
                     b.Navigation("Buildings");
+
+                    b.Navigation("Gatherings");
 
                     b.Navigation("Resources");
                 });

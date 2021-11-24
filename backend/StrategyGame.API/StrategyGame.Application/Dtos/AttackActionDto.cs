@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StrategyGame.Common.Enums
+namespace StrategyGame.Application.Dtos
 {
-    public enum BuildingType
+    public class AttackActionDto
     {
-        Factory
+        public int Atk { get; set; }
     }
 }

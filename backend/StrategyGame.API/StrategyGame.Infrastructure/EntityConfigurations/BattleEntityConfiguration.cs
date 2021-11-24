@@ -4,14 +4,14 @@ using StrategyGame.Domain.Game;
 
 namespace StrategyGame.Infrastructure.EntityConfigurations
 {
-    public class BuildingDataEntityConfiguration : IEntityTypeConfiguration<BuildingData>
+    public class BattleEntityConfiguration : IEntityTypeConfiguration<Battle>
     {
 
-        public void Configure(EntityTypeBuilder<BuildingData> builder)
+        public void Configure(EntityTypeBuilder<Battle> builder)
         {
             builder.HasKey(x => x.Id);
 
-            builder.HasOne(x => x.FactoryParameters).WithMany();
+            //TODO
         }
     }
 }

@@ -9,14 +9,12 @@ using System.Threading.Tasks;
 
 namespace StrategyGame.Infrastructure.EntityConfigurations
 {
-    public class ResourceEntityConfiguration : IEntityTypeConfiguration<Resource>
+    public class ResourceDataEntityConfiguration : IEntityTypeConfiguration<ResourceData>
     {
 
-        public void Configure(EntityTypeBuilder<Resource> builder)
+        public void Configure(EntityTypeBuilder<ResourceData> builder)
         {
             builder.HasKey(x => x.Id);
-
-            builder.HasOne(x => x.ResourceData).WithMany();
         }
     }
 }

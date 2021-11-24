@@ -16,29 +16,55 @@ namespace StrategyGame.API.Controllers
     [ApiController]
     public class CommandController : Controller
     {
-        public CommandController()
+        private readonly ICommandService commandService;
+        private readonly IBattleService battleService;
+
+        public CommandController(ICommandService commandService, IBattleService battleService)
         {
+            this.commandService = commandService;
+            this.battleService = battleService;
+        }
+
+        [HttpGet("build/actions")]
+        public async Task<IEnumerable<BuildingViewModel>> GetBuildings(CancellationToken cancellationToken)
+        {
+            return await commandService.QueryBuildingActions(cancellationToken);
         }
 
         [HttpPost("build")]
-        public Task PostBuild(CancellationToken cancellationToken)
+        public async Task PostBuild(BuildingActionDto buildingActionDto, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await commandService.StartBuildingAction(buildingActionDto, cancellationToken);
         }
 
-        [HttpPost("capture")]
-        public Task PostCapture(CancellationToken cancellationToken)
+        [HttpGet("gather/actions")]
+        public async Task<IEnumerable<GatheringViewModel>> GetGather(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return await commandService.QueryGatheringActions(cancellationToken);
+        }
+
+        [HttpPost("gather")]
+        public async Task PostGather([FromBody] GatheringActionDto gatheringActionDto, CancellationToken cancellationToken)
+        {
+            await commandService.StartGatheringAction(gatheringActionDto, cancellationToken);
+        }
+
+        [HttpGet("trade/actions")]
+        public async Task<IEnumerable<TradeViewModel>> GetTrades(CancellationToken cancellationToken)
+        {
+            return await commandService.QueryTradeActions(cancellationToken);
+        }
+
+        [HttpPost("trade")]
+        public async Task PostTrade([FromBody] TradeActionDto tradeActionDto, CancellationToken cancellationToken)
+        {
+            await commandService.StartTradeAction(tradeActionDto, cancellationToken);
         }
 
         [HttpPost("attack")]
-        public Task PostAttack(CancellationToken cancellationToken)
+        public async Task PostAttack([FromBody] AttackActionDto attackActionDto, CancellationToken cancellationToken)
         {
-            //-> Nincs másik játékos?
-            throw new NotImplementedException();
+            await battleService.LaunchAttack(attackActionDto, cancellationToken);
         }
-
-        //TODO: Védekezés -> signalr?
     }
 }

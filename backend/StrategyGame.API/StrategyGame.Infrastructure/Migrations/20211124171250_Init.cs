@@ -47,15 +47,87 @@ namespace StrategyGame.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BuildingDatas",
+                name: "Battles",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AtkPower = table.Column<int>(type: "int", nullable: false),
+                    AtkPlayer = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DefPlayer = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TimeLeft = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Battles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FactoryParameter",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PassiveIncome = table.Column<int>(type: "int", nullable: false),
+                    ResourceType = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FactoryParameter", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GatheringDatas",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    MinimumBaseReward = table.Column<int>(type: "int", nullable: false),
+                    MaximumBaseReward = table.Column<int>(type: "int", nullable: false),
+                    TimeMultiplier = table.Column<int>(type: "int", nullable: false),
+                    MaxTimeAllowed = table.Column<int>(type: "int", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BuildingDatas", x => x.Id);
+                    table.PrimaryKey("PK_GatheringDatas", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ResourceDatas",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Value = table.Column<int>(type: "int", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ResourceDatas", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Round",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Current = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Round", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TradeDatas",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RiskPercentage = table.Column<int>(type: "int", nullable: false),
+                    ReturnMultiplier = table.Column<int>(type: "int", nullable: false),
+                    RewardResource = table.Column<int>(type: "int", nullable: false),
+                    RequiredResource = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TradeDatas", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -165,30 +237,95 @@ namespace StrategyGame.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Scoreboard",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StrategyGameUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Score = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Scoreboard", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Scoreboard_AspNetUsers_StrategyGameUserId",
+                        column: x => x.StrategyGameUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BuildingDatas",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    Value = table.Column<int>(type: "int", nullable: false),
+                    FactoryParametersId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BuildingDatas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BuildingDatas_FactoryParameter_FactoryParametersId",
+                        column: x => x.FactoryParametersId,
+                        principalTable: "FactoryParameter",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Gatherings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StrategyGameUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TimeLeft = table.Column<int>(type: "int", nullable: false),
+                    CalcualtedReward = table.Column<int>(type: "int", nullable: false),
+                    GatheringDataId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Gatherings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Gatherings_AspNetUsers_StrategyGameUserId",
+                        column: x => x.StrategyGameUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Gatherings_GatheringDatas_GatheringDataId",
+                        column: x => x.GatheringDataId,
+                        principalTable: "GatheringDatas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Resources",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StrategyGameUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Amount = table.Column<int>(type: "int", nullable: false),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    StrategyGameUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    ResourceDataId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Resources", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Resources_AspNetUsers_PlayerId",
-                        column: x => x.PlayerId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_Resources_AspNetUsers_StrategyGameUserId",
                         column: x => x.StrategyGameUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Resources_ResourceDatas_ResourceDataId",
+                        column: x => x.ResourceDataId,
+                        principalTable: "ResourceDatas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -215,13 +352,19 @@ namespace StrategyGame.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StrategyGameUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Amount = table.Column<int>(type: "int", nullable: false),
                     BuildingDataId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Buildings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Buildings_AspNetUsers_StrategyGameUserId",
+                        column: x => x.StrategyGameUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Buildings_BuildingDatas_BuildingDataId",
                         column: x => x.BuildingDataId,
@@ -270,6 +413,11 @@ namespace StrategyGame.Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BuildingDatas_FactoryParametersId",
+                table: "BuildingDatas",
+                column: "FactoryParametersId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_BuildingPrice_BuildingDataId",
                 table: "BuildingPrice",
                 column: "BuildingDataId");
@@ -280,13 +428,33 @@ namespace StrategyGame.Infrastructure.Migrations
                 column: "BuildingDataId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Resources_PlayerId",
+                name: "IX_Buildings_StrategyGameUserId",
+                table: "Buildings",
+                column: "StrategyGameUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Gatherings_GatheringDataId",
+                table: "Gatherings",
+                column: "GatheringDataId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Gatherings_StrategyGameUserId",
+                table: "Gatherings",
+                column: "StrategyGameUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Resources_ResourceDataId",
                 table: "Resources",
-                column: "PlayerId");
+                column: "ResourceDataId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Resources_StrategyGameUserId",
                 table: "Resources",
+                column: "StrategyGameUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Scoreboard_StrategyGameUserId",
+                table: "Scoreboard",
                 column: "StrategyGameUserId");
         }
 
@@ -308,13 +476,28 @@ namespace StrategyGame.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Battles");
+
+            migrationBuilder.DropTable(
                 name: "BuildingPrice");
 
             migrationBuilder.DropTable(
                 name: "Buildings");
 
             migrationBuilder.DropTable(
+                name: "Gatherings");
+
+            migrationBuilder.DropTable(
                 name: "Resources");
+
+            migrationBuilder.DropTable(
+                name: "Round");
+
+            migrationBuilder.DropTable(
+                name: "Scoreboard");
+
+            migrationBuilder.DropTable(
+                name: "TradeDatas");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -323,7 +506,16 @@ namespace StrategyGame.Infrastructure.Migrations
                 name: "BuildingDatas");
 
             migrationBuilder.DropTable(
+                name: "GatheringDatas");
+
+            migrationBuilder.DropTable(
+                name: "ResourceDatas");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "FactoryParameter");
         }
     }
 }
