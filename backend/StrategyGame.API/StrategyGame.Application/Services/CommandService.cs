@@ -117,7 +117,6 @@ namespace StrategyGame.Application.Services
             if (gather.MaxTimeAllowed < gatheringActionDto.Time)
                 throw new Exception(ErrorMessages.ActionRequestTooLong);
 
-            //TODO: Effects? -> If any 
             var min = gather.MinimumBaseReward * gather.TimeMultiplier;
             var max = gather.MaximumBaseReward * gather.TimeMultiplier;
 
@@ -129,7 +128,7 @@ namespace StrategyGame.Application.Services
             await gatheringStore.SaveChanges();
         }
 
-        public async Task StartTradeAction(TradeActionDto tradeActionDto, CancellationToken cancellationToken)
+        public async Task<TradeResultViewModel> StartTradeAction(TradeActionDto tradeActionDto, CancellationToken cancellationToken)
         {
             var userId = claimService.GetUserId();
 
@@ -145,17 +144,23 @@ namespace StrategyGame.Application.Services
 
             Random random = new Random();
 
-            gambledResource.Amount -= tradeActionDto.Amount;
-
             if (random.Next(0, 100) > trade.RiskPercentage)
             {
+                gambledResource.Amount -= tradeActionDto.Amount;
+
                 await resourceStore.SaveChanges();
+
+                return new TradeResultViewModel { Success = false, ResourcesWon = 0, WonType = trade.RewardResource, ResourcesLost = tradeActionDto.Amount, LostType = trade.RequiredResource };
             }
             else 
             {
-                rewardResource.Amount += tradeActionDto.Amount * trade.ReturnMultiplier;
+                var reward = tradeActionDto.Amount * trade.ReturnMultiplier;
+
+                rewardResource.Amount += reward;
 
                 await resourceStore.SaveChanges();
+
+                return new TradeResultViewModel { Success = false, ResourcesWon = reward, WonType = trade.RewardResource, ResourcesLost = 0, LostType = trade.RequiredResource };
             }
         }
     }

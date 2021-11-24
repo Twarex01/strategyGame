@@ -84,7 +84,6 @@ namespace StrategyGame.Seeder
             await resourceDataStore.SaveChanges();
         }
 
-        //TODO: On new user
         private async Task SeedPlayerResources(Guid userId) 
         {
             var allResourceData = resourceDataStore.GetQuery(false);
@@ -114,7 +113,6 @@ namespace StrategyGame.Seeder
             await gatheringDataStore.SaveChanges();
         }
 
-        //TODO: Foreach -> From config
         private async Task SeedBuildingData() 
         {
             var previousBuildingData = buildingDataStore.GetQuery(false);

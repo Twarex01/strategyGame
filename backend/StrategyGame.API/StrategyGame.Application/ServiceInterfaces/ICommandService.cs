@@ -13,7 +13,7 @@ namespace StrategyGame.Application.ServiceInterfaces
     {
         public Task StartGatheringAction(GatheringActionDto gatheringActionDto, CancellationToken cancellationToken);
         public Task StartBuildingAction(BuildingActionDto buildingActionDto, CancellationToken cancellationToken);
-        public Task StartTradeAction(TradeActionDto tradeActionDto, CancellationToken cancellationToken);
+        public Task<TradeResultViewModel> StartTradeAction(TradeActionDto tradeActionDto, CancellationToken cancellationToken);
         public Task<IEnumerable<GatheringViewModel>> QueryGatheringActions(CancellationToken cancellationToken);
         public Task<IEnumerable<BuildingViewModel>> QueryBuildingActions(CancellationToken cancellationToken);
         public Task<IEnumerable<TradeViewModel>> QueryTradeActions(CancellationToken cancellationToken);
