@@ -12,7 +12,8 @@ namespace StrategyGame.Application.ServiceInterfaces
     public interface ICommandService
     {
         public Task StartGatheringAction(GatheringActionDto gatheringActionDto, CancellationToken cancellationToken);
-
+        public Task StartBuildingAction(BuildingActionDto buildingActionDto, CancellationToken cancellationToken);
         public Task<IEnumerable<GatheringViewModel>> QueryGatheringActions(CancellationToken cancellationToken);
+        public Task<IEnumerable<BuildingViewModel>> QueryBuildings(CancellationToken cancellationToken);
     }
 }

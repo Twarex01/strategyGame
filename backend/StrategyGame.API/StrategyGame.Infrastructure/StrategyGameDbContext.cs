@@ -22,6 +22,7 @@ namespace StrategyGame.Infrastructure
         public DbSet<BuildingData> BuildingDatas { get; set; }
         public DbSet<Gathering> Gatherings { get; set; }
         public DbSet<GatheringData> GatheringDatas { get; set; }
+        public DbSet<Battle> Battles { get; set; }
         public DbSet<Round> Round { get; set; }
         public DbSet<Scoreboard> Scoreboard { get; set; }
 

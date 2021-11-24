@@ -34,11 +34,5 @@ namespace StrategyGame.API.Controllers
         {
             return statsService.GetScore(cancellationToken);
         }
-
-        [HttpGet("place")]
-        public Task<int> GetPlace(CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

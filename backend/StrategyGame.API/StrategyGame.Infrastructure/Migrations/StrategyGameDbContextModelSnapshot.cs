@@ -105,6 +105,29 @@ namespace StrategyGame.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("StrategyGame.Domain.Game.Battle", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AtkPlayer")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AtkPower")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("DefPlayer")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("TimeLeft")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Battles");
+                });
+
             modelBuilder.Entity("StrategyGame.Domain.Game.Building", b =>
                 {
                     b.Property<Guid>("Id")
@@ -308,8 +331,7 @@ namespace StrategyGame.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StrategyGameUserId")
-                        .IsUnique();
+                    b.HasIndex("StrategyGameUserId");
 
                     b.ToTable("Scoreboard");
                 });
@@ -535,8 +557,8 @@ namespace StrategyGame.Infrastructure.Migrations
             modelBuilder.Entity("StrategyGame.Domain.Game.Scoreboard", b =>
                 {
                     b.HasOne("StrategyGame.Entities.Domain.StrategyGameUser", "StrategyGameUser")
-                        .WithOne()
-                        .HasForeignKey("StrategyGame.Domain.Game.Scoreboard", "StrategyGameUserId")
+                        .WithMany()
+                        .HasForeignKey("StrategyGameUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

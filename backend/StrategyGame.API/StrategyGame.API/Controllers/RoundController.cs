@@ -29,7 +29,7 @@ namespace StrategyGame.API.Controllers
             return await roundService.GetRound(cancellationToken);
         }
 
-        //until hangfire
+        //TODO: Until hangfire
         [HttpPost("end")]
         public async Task PostEndRound(CancellationToken cancellationToken)
         {

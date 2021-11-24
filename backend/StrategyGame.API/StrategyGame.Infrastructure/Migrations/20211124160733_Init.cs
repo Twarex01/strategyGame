@@ -47,6 +47,21 @@ namespace StrategyGame.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Battles",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AtkPower = table.Column<int>(type: "int", nullable: false),
+                    AtkPlayer = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DefPlayer = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TimeLeft = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Battles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FactoryParameters",
                 columns: table => new
                 {
@@ -201,6 +216,25 @@ namespace StrategyGame.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Scoreboard",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StrategyGameUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Score = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Scoreboard", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Scoreboard_AspNetUsers_StrategyGameUserId",
+                        column: x => x.StrategyGameUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -402,6 +436,11 @@ namespace StrategyGame.Infrastructure.Migrations
                 name: "IX_Resources_StrategyGameUserId",
                 table: "Resources",
                 column: "StrategyGameUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Scoreboard_StrategyGameUserId",
+                table: "Scoreboard",
+                column: "StrategyGameUserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -422,6 +461,9 @@ namespace StrategyGame.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Battles");
+
+            migrationBuilder.DropTable(
                 name: "BuildingPrice");
 
             migrationBuilder.DropTable(
@@ -437,6 +479,9 @@ namespace StrategyGame.Infrastructure.Migrations
                 name: "Round");
 
             migrationBuilder.DropTable(
+                name: "Scoreboard");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -446,10 +491,10 @@ namespace StrategyGame.Infrastructure.Migrations
                 name: "GatheringDatas");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "ResourceDatas");
 
             migrationBuilder.DropTable(
-                name: "ResourceDatas");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "FactoryParameters");

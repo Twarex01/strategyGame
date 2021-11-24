@@ -17,22 +17,31 @@ namespace StrategyGame.API.Controllers
     public class CommandController : Controller
     {
         private readonly ICommandService commandService;
+        private readonly IBattleService battleService;
 
-        public CommandController(ICommandService commandService)
+        public CommandController(ICommandService commandService, IBattleService battleService)
         {
             this.commandService = commandService;
+            this.battleService = battleService;
+        }
+
+        [HttpGet("build/actions")]
+        public async Task<IEnumerable<BuildingViewModel>> GetBuildings(CancellationToken cancellationToken)
+        {
+            return await commandService.QueryBuildings(cancellationToken);
         }
 
         [HttpPost("build")]
-        public Task PostBuild(CancellationToken cancellationToken)
+        public async Task PostBuild(BuildingActionDto buildingActionDto, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await commandService.StartBuildingAction(buildingActionDto, cancellationToken);
         }
 
-        [HttpGet("build/buildings")]
-        public Task GetBuildings(CancellationToken cancellationToken)
+        [HttpGet("gather/actions")]
+        public async Task<IEnumerable<GatheringViewModel>> GetActions(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            //TODO: NPC Battle
+            return await commandService.QueryGatheringActions(cancellationToken);
         }
 
         [HttpPost("gather")]
@@ -41,19 +50,10 @@ namespace StrategyGame.API.Controllers
             await commandService.StartGatheringAction(gatheringActionDto, cancellationToken);
         }
 
-        [HttpGet("gather/actions")]
-        public async Task<IEnumerable<GatheringViewModel>> GetActions(CancellationToken cancellationToken)
-        {
-            return await commandService.QueryGatheringActions(cancellationToken);
-        }
-
         [HttpPost("attack")]
-        public Task PostAttack(CancellationToken cancellationToken)
+        public async Task PostAttack([FromBody] AttackActionDto attackActionDto, CancellationToken cancellationToken)
         {
-            //-> Nincs másik játékos?
-            throw new NotImplementedException();
+            await battleService.LaunchAttack(attackActionDto, cancellationToken);
         }
-
-        //TODO: Védekezés -> signalr?
     }
 }

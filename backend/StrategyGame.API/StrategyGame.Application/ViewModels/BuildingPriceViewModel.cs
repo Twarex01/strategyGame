@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace StrategyGame.Application.ViewModels
 {
-    public class ResourceViewModel
+    public class BuildingPriceViewModel
     {
-        public ResourceType Type { get; set; }
-
-        public int Amount { get; set; }
+        public ResourceType Key;
+        public int Value;
     }
 }
