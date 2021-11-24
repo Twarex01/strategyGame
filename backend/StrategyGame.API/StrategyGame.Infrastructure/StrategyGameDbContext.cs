@@ -23,6 +23,7 @@ namespace StrategyGame.Infrastructure
         public DbSet<Gathering> Gatherings { get; set; }
         public DbSet<GatheringData> GatheringDatas { get; set; }
         public DbSet<Round> Round { get; set; }
+        public DbSet<Scoreboard> Scoreboard { get; set; }
 
         public StrategyGameDbContext(DbContextOptions<StrategyGameDbContext> options) : base(options)
         {

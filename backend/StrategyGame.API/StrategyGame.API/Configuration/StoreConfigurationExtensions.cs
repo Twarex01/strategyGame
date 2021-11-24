@@ -25,6 +25,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IEntityStore<GatheringData>, GatheringDataStore>();
 
             services.AddScoped<IEntityStore<Round>, RoundStore>();
+            services.AddScoped<IEntityStore<Scoreboard>, ScoreboardStore>();
 
             return services;
         }

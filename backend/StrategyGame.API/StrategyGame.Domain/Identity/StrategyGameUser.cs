@@ -11,8 +11,8 @@ namespace StrategyGame.Entities.Domain
 {
     public class StrategyGameUser : IdentityUser<Guid>, IEntity
     {
-        public IEnumerable<Resource> Resources { get; set; } = default!;
-        public IEnumerable<Building> Buildings { get; set; } = default!;
-        public IEnumerable<Gathering> Gatherings { get; set; } = default!;
+        public List<Resource> Resources { get; set; }
+        public List<Building> Buildings { get; set; }
+        public List<Gathering> Gatherings { get; set; }
     }
 }

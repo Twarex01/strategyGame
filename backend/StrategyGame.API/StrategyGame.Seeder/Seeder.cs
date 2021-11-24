@@ -35,9 +35,11 @@ namespace StrategyGame.Seeder
 
         private readonly IEntityStore<Round> roundStore;
 
+        private readonly IEntityStore<Scoreboard> scoreboardStore;
+
         private const string UserId = "11111111-1111-1111-1111-111111111111";
 
-        public Seeder(RoleManager<StrategyGameRole> roleManager, UserManager<StrategyGameUser> userManager, IEntityStore<Resource> resourceStore, IEntityStore<ResourceData> resourceDataStore, IEntityStore<BuildingData> buildingDataStore, IEntityStore<Building> buildingStore, IEntityStore<GatheringData> gatheringDataStore, IEntityStore<Gathering> gatheringStore, IEntityStore<Round> roundStore)
+        public Seeder(RoleManager<StrategyGameRole> roleManager, UserManager<StrategyGameUser> userManager, IEntityStore<Resource> resourceStore, IEntityStore<ResourceData> resourceDataStore, IEntityStore<BuildingData> buildingDataStore, IEntityStore<Building> buildingStore, IEntityStore<GatheringData> gatheringDataStore, IEntityStore<Gathering> gatheringStore, IEntityStore<Round> roundStore, IEntityStore<Scoreboard> scoreboardStore)
         {
             this.roleManager = roleManager;
             this.userManager = userManager;
@@ -48,6 +50,7 @@ namespace StrategyGame.Seeder
             this.gatheringDataStore = gatheringDataStore;
             this.gatheringStore = gatheringStore;
             this.roundStore = roundStore;
+            this.scoreboardStore = scoreboardStore;
         }
 
         private async Task SeedRoles()
@@ -133,6 +136,19 @@ namespace StrategyGame.Seeder
             await buildingStore.SaveChanges();
         }
 
+        private async Task SeedPlayerScore(Guid userId)
+        {
+            var scoreboard = scoreboardStore.GetQuery(false);
+
+            if (scoreboard.Any(x => x.Id == userId))
+                return;
+
+            scoreboardStore.Add(new Scoreboard { Score = 0, StrategyGameUserId = userId });
+
+            await scoreboardStore.SaveChanges();
+        }
+
+
         private async Task SeedUsers()
         {
             var userEntity = await userManager.FindByIdAsync(UserId);
@@ -153,6 +169,7 @@ namespace StrategyGame.Seeder
 
             try
             {
+                await SeedPlayerScore(user.Id);
                 await SeedPlayerResources(user.Id);
                 await SeedPlayerBuildings(user.Id);
             }
