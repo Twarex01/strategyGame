@@ -28,7 +28,7 @@ namespace StrategyGame.API.Controllers
         [HttpGet("build/actions")]
         public async Task<IEnumerable<BuildingViewModel>> GetBuildings(CancellationToken cancellationToken)
         {
-            return await commandService.QueryBuildings(cancellationToken);
+            return await commandService.QueryBuildingActions(cancellationToken);
         }
 
         [HttpPost("build")]
@@ -38,9 +38,8 @@ namespace StrategyGame.API.Controllers
         }
 
         [HttpGet("gather/actions")]
-        public async Task<IEnumerable<GatheringViewModel>> GetActions(CancellationToken cancellationToken)
+        public async Task<IEnumerable<GatheringViewModel>> GetGather(CancellationToken cancellationToken)
         {
-            //TODO: NPC Battle
             return await commandService.QueryGatheringActions(cancellationToken);
         }
 
@@ -48,6 +47,18 @@ namespace StrategyGame.API.Controllers
         public async Task PostGather([FromBody] GatheringActionDto gatheringActionDto, CancellationToken cancellationToken)
         {
             await commandService.StartGatheringAction(gatheringActionDto, cancellationToken);
+        }
+
+        [HttpGet("trade/actions")]
+        public async Task<IEnumerable<TradeViewModel>> GetTrades(CancellationToken cancellationToken)
+        {
+            return await commandService.QueryTradeActions(cancellationToken);
+        }
+
+        [HttpPost("trade")]
+        public async Task PostTrade([FromBody] TradeActionDto tradeActionDto, CancellationToken cancellationToken)
+        {
+            await commandService.StartTradeAction(tradeActionDto, cancellationToken);
         }
 
         [HttpPost("attack")]

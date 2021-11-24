@@ -14,7 +14,7 @@ namespace StrategyGame.Domain.Game
         public int Value { get; set; }
 
         public Guid? FactoryParametersId { get; set; }
-        public FactoryParameters? FactoryParameters { get; set; }
+        public FactoryParameter? FactoryParameters { get; set; }
         
         public IEnumerable<BuildingPrice> Cost { get; set; } = default!;
     }

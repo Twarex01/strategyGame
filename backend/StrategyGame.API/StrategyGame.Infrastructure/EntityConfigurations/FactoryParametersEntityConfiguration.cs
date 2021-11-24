@@ -4,10 +4,10 @@ using StrategyGame.Domain.Game;
 
 namespace StrategyGame.Infrastructure.EntityConfigurations
 {
-    public class FactoryParametersEntityConfiguration : IEntityTypeConfiguration<FactoryParameters>
+    public class FactoryParametersEntityConfiguration : IEntityTypeConfiguration<FactoryParameter>
     {
 
-        public void Configure(EntityTypeBuilder<FactoryParameters> builder)
+        public void Configure(EntityTypeBuilder<FactoryParameter> builder)
         {
             builder.HasKey(x => x.Id);
         }

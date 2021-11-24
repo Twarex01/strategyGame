@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace StrategyGame.Application.Dtos
 {
-    public class GatheringActionDto
+    public class TradeActionDto
     {
-        public Guid GatherId { get; set; }
-        public int Time { get; set; }
+        public Guid TradeId { get; set; }
+        public int Amount { get; set; }
     }
 }

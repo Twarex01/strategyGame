@@ -33,6 +33,8 @@ namespace StrategyGame.Seeder
 
         private readonly IEntityStore<Gathering> gatheringStore;
 
+        private readonly IEntityStore<TradeData> tradeDataStore;
+
         private readonly IEntityStore<Round> roundStore;
 
         private readonly IEntityStore<Scoreboard> scoreboardStore;
@@ -40,7 +42,7 @@ namespace StrategyGame.Seeder
         private const string User1Id = "11111111-1111-1111-1111-111111111111";
         private const string User2Id = "11111111-1111-1111-1111-111111111112";
 
-        public Seeder(RoleManager<StrategyGameRole> roleManager, UserManager<StrategyGameUser> userManager, IEntityStore<Resource> resourceStore, IEntityStore<ResourceData> resourceDataStore, IEntityStore<BuildingData> buildingDataStore, IEntityStore<Building> buildingStore, IEntityStore<GatheringData> gatheringDataStore, IEntityStore<Gathering> gatheringStore, IEntityStore<Round> roundStore, IEntityStore<Scoreboard> scoreboardStore)
+        public Seeder(RoleManager<StrategyGameRole> roleManager, UserManager<StrategyGameUser> userManager, IEntityStore<Resource> resourceStore, IEntityStore<ResourceData> resourceDataStore, IEntityStore<BuildingData> buildingDataStore, IEntityStore<Building> buildingStore, IEntityStore<GatheringData> gatheringDataStore, IEntityStore<Gathering> gatheringStore, IEntityStore<TradeData> tradeDataStore, IEntityStore<Round> roundStore, IEntityStore<Scoreboard> scoreboardStore)
         {
             this.roleManager = roleManager;
             this.userManager = userManager;
@@ -50,6 +52,7 @@ namespace StrategyGame.Seeder
             this.buildingStore = buildingStore;
             this.gatheringDataStore = gatheringDataStore;
             this.gatheringStore = gatheringStore;
+            this.tradeDataStore = tradeDataStore;
             this.roundStore = roundStore;
             this.scoreboardStore = scoreboardStore;
         }
@@ -101,6 +104,9 @@ namespace StrategyGame.Seeder
 
             foreach (ResourceType resourceType in Enum.GetValues(typeof(ResourceType)))
             {
+                if (resourceType == ResourceType.Atk)
+                    continue;
+
                 if(!previousGatheringData.Any(x => x.Type == resourceType))
                     gatheringDataStore.Add(new GatheringData { MinimumBaseReward = 1, MaximumBaseReward = 10, TimeMultiplier = 1, MaxTimeAllowed = 5 , Type = resourceType });
             }
@@ -118,11 +124,23 @@ namespace StrategyGame.Seeder
             if (previousBuildingData.Count() == 3)
                 return;
 
-            buildingDataStore.Add(new BuildingData { Type = type, Cost = new List<BuildingPrice> { new BuildingPrice(ResourceType.Wood, 50) }, FactoryParameters = new FactoryParameters { PassiveIncome = 5, ResourceType = ResourceType.Wood } });
-            buildingDataStore.Add(new BuildingData { Type = type, Cost = new List<BuildingPrice> { new BuildingPrice(ResourceType.Iron, 50) }, FactoryParameters = new FactoryParameters { PassiveIncome = 5, ResourceType = ResourceType.Iron } });
-            buildingDataStore.Add(new BuildingData { Type = type, Cost = new List<BuildingPrice> { new BuildingPrice(ResourceType.Gold, 50) }, FactoryParameters = new FactoryParameters { PassiveIncome = 5, ResourceType = ResourceType.Gold } });
+            buildingDataStore.Add(new BuildingData { Type = type, Cost = new List<BuildingPrice> { new BuildingPrice(ResourceType.Wood, 50) }, FactoryParameters = new FactoryParameter { PassiveIncome = 5, ResourceType = ResourceType.Wood } });
+            buildingDataStore.Add(new BuildingData { Type = type, Cost = new List<BuildingPrice> { new BuildingPrice(ResourceType.Iron, 50) }, FactoryParameters = new FactoryParameter { PassiveIncome = 5, ResourceType = ResourceType.Iron } });
+            buildingDataStore.Add(new BuildingData { Type = type, Cost = new List<BuildingPrice> { new BuildingPrice(ResourceType.Gold, 50) }, FactoryParameters = new FactoryParameter { PassiveIncome = 5, ResourceType = ResourceType.Gold } });
 
             await buildingDataStore.SaveChanges();
+        }
+
+        private async Task SeedTradeData()
+        {
+            var previousTradeData = tradeDataStore.GetQuery(false);
+
+            if (previousTradeData.Count() == 1)
+                return;
+
+            tradeDataStore.Add(new TradeData { RequiredResource = ResourceType.Food, RewardResource = ResourceType.Atk, RiskPercentage = 50, ReturnMultiplier = 2 });
+
+            await tradeDataStore.SaveChanges();
         }
 
         private async Task SeedPlayerBuildings(Guid userId)
@@ -224,6 +242,7 @@ namespace StrategyGame.Seeder
         {
             await SeedRound();
 
+            await SeedTradeData();
             await SeedResourceData();
             await SeedBuildingData();
             await SeedGatheringData();

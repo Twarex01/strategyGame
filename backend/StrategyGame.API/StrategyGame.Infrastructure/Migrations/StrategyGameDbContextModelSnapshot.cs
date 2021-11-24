@@ -192,7 +192,7 @@ namespace StrategyGame.Infrastructure.Migrations
                     b.ToTable("BuildingPrice");
                 });
 
-            modelBuilder.Entity("StrategyGame.Domain.Game.FactoryParameters", b =>
+            modelBuilder.Entity("StrategyGame.Domain.Game.FactoryParameter", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -206,7 +206,7 @@ namespace StrategyGame.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FactoryParameters");
+                    b.ToTable("FactoryParameter");
                 });
 
             modelBuilder.Entity("StrategyGame.Domain.Game.Gathering", b =>
@@ -334,6 +334,29 @@ namespace StrategyGame.Infrastructure.Migrations
                     b.HasIndex("StrategyGameUserId");
 
                     b.ToTable("Scoreboard");
+                });
+
+            modelBuilder.Entity("StrategyGame.Domain.Game.TradeData", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("RequiredResource")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReturnMultiplier")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RewardResource")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RiskPercentage")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TradeDatas");
                 });
 
             modelBuilder.Entity("StrategyGame.Entities.Domain.StrategyGameRole", b =>
@@ -502,7 +525,7 @@ namespace StrategyGame.Infrastructure.Migrations
 
             modelBuilder.Entity("StrategyGame.Domain.Game.BuildingData", b =>
                 {
-                    b.HasOne("StrategyGame.Domain.Game.FactoryParameters", "FactoryParameters")
+                    b.HasOne("StrategyGame.Domain.Game.FactoryParameter", "FactoryParameters")
                         .WithMany()
                         .HasForeignKey("FactoryParametersId");
 

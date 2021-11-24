@@ -23,6 +23,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IEntityStore<BuildingData>, BuildingDataStore>();
             services.AddScoped<IEntityStore<Gathering>, GatheringStore>();
             services.AddScoped<IEntityStore<GatheringData>, GatheringDataStore>();
+            services.AddScoped<IEntityStore<TradeData>, TradeDataStore>();
 
             services.AddScoped<IEntityStore<Battle>, BattleStore>();
 

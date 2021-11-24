@@ -62,7 +62,7 @@ namespace StrategyGame.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FactoryParameters",
+                name: "FactoryParameter",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -71,7 +71,7 @@ namespace StrategyGame.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FactoryParameters", x => x.Id);
+                    table.PrimaryKey("PK_FactoryParameter", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -113,6 +113,21 @@ namespace StrategyGame.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Round", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TradeDatas",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RiskPercentage = table.Column<int>(type: "int", nullable: false),
+                    ReturnMultiplier = table.Column<int>(type: "int", nullable: false),
+                    RewardResource = table.Column<int>(type: "int", nullable: false),
+                    RequiredResource = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TradeDatas", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -253,9 +268,9 @@ namespace StrategyGame.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_BuildingDatas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BuildingDatas_FactoryParameters_FactoryParametersId",
+                        name: "FK_BuildingDatas_FactoryParameter_FactoryParametersId",
                         column: x => x.FactoryParametersId,
-                        principalTable: "FactoryParameters",
+                        principalTable: "FactoryParameter",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -482,6 +497,9 @@ namespace StrategyGame.Infrastructure.Migrations
                 name: "Scoreboard");
 
             migrationBuilder.DropTable(
+                name: "TradeDatas");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -497,7 +515,7 @@ namespace StrategyGame.Infrastructure.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "FactoryParameters");
+                name: "FactoryParameter");
         }
     }
 }

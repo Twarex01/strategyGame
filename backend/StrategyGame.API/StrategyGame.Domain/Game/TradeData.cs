@@ -8,10 +8,16 @@ using System.Threading.Tasks;
 
 namespace StrategyGame.Domain.Game
 {
-    public class FactoryParameters : IEntity
+    public class TradeData : IEntity
     {
         public Guid Id { get; set; }
-        public int PassiveIncome { get; set; }
-        public ResourceType ResourceType { get; set; }
+
+        public int RiskPercentage { get; set; }
+
+        public int ReturnMultiplier { get; set; }
+
+        public ResourceType RewardResource { get; set; }
+
+        public ResourceType RequiredResource { get; set; }
     }
 }
