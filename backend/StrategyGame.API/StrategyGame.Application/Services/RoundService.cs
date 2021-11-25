@@ -73,60 +73,58 @@ namespace StrategyGame.Application.Services
 
         private async Task TickBattles(CancellationToken cancellationToken)
         {
-            //try
-            //{            
-            //    //TODO: Fix
-            //    var battles = battleStore.GetQuery(false);
-            //    var users = strategyGameUserStore.GetQuery(true).Include(x => x.Resources).ThenInclude(x => x.ResourceData);
+            try
+            {
+                var battles = battleStore.GetQuery(true)
+                    .Include(x => x.AtkPlayer).ThenInclude(x => x.Resources).ThenInclude(x => x.ResourceData)
+                    .Include(x => x.DefPlayer).ThenInclude(x => x.Resources).ThenInclude(x => x.ResourceData);
 
-            //    foreach (var battle in battles)
-            //    {
-            //        if (battle.TicksLeft <= 0)
-            //        {
-            //            var defPlayer = users.SingleOrDefault(x => x.Id == battle.DefPlayer);
-            //            var atkPlayer = users.SingleOrDefault(x => x.Id == battle.AtkPlayer);
+                foreach (var battle in battles)
+                {
+                    if (battle.TicksLeft <= 0)
+                    {
+                        var defPower = battle.DefPlayer.Resources.SingleOrDefault(x => x.ResourceData.Type == ResourceType.Atk);
 
-            //            if (battle.AtkPower > defPlayer.Resources.SingleOrDefault(x => x.ResourceData.Type == ResourceType.Atk).Amount)
-            //            {
-            //                var defUnits = defPlayer.Resources.SingleOrDefault(x => x.ResourceData.Type == ResourceType.Atk);
+                        if (battle.AtkPower > defPower.Amount)
+                        {
+                            defPower.Amount = defPower.Amount - defPower.Amount / lossPow;
 
-            //                defUnits.Amount = defUnits.Amount - defUnits.Amount / lossPow;
+                            var defResources = battle.DefPlayer.Resources.Where(x => x.ResourceData.Type != ResourceType.Atk);
 
-            //                var defResources = defPlayer.Resources.Where(x => x.ResourceData.Type != ResourceType.Atk);
+                            foreach (var resource in defResources)
+                            {
+                                var stolenAmount = resource.Amount - resource.Amount / stealPow;
 
-            //                foreach (var resource in defResources)
-            //                {
-            //                    var stolenAmount = resource.Amount - resource.Amount / stealPow;
+                                battle.AtkPlayer.Resources.SingleOrDefault(x => x.ResourceData.Type == resource.ResourceData.Type).Amount += stolenAmount;
 
-            //                    atkPlayer.Resources.SingleOrDefault(x => x.ResourceData.Type == resource.ResourceData.Type).Amount += stolenAmount;
-            //                    resource.Amount -= stolenAmount;
-            //                }
-            //            }
-            //            else
-            //            {
-            //                battle.AtkPower = battle.AtkPower - battle.AtkPower / lossPow;
-            //            }
+                                resource.Amount -= stolenAmount;
+                            }
+                        }
+                        else
+                        {
+                            battle.AtkPower = battle.AtkPower - battle.AtkPower / lossPow;
+                        }
 
-            //            var atkUnits = atkPlayer.Resources.SingleOrDefault(x => x.ResourceData.Type == ResourceType.Atk).Amount += battle.AtkPower;
+                        var atkUnits = battle.AtkPlayer.Resources.SingleOrDefault(x => x.ResourceData.Type == ResourceType.Atk).Amount += battle.AtkPower;
 
-            //            battleStore.Remove(battle);
+                        battleStore.Remove(battle);
 
-            //            //Notify
-            //        }
-            //        else
-            //        {
-            //            battle.TicksLeft--;
-            //        }
-            //    }
+                        //Notify
+                    }
+                    else
+                    {
+                        battle.TicksLeft--;
+                    }
+                }
 
-            //    await battleStore.SaveChanges();
-            //    await strategyGameUserStore.SaveChanges();
-            //}
-            //catch (Exception e)
-            //{
+                await battleStore.SaveChanges();
+                await strategyGameUserStore.SaveChanges();
+            }
+            catch (Exception e)
+            {
 
-            //    throw;
-            //}
+                throw;
+            }
         }
 
         private async Task TickGathering(CancellationToken cancellationToken)
