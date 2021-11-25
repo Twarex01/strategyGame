@@ -47,21 +47,6 @@ namespace StrategyGame.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Battles",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AtkPower = table.Column<int>(type: "int", nullable: false),
-                    AtkPlayer = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DefPlayer = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TicksLeft = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Battles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "FactoryParameter",
                 columns: table => new
                 {
@@ -235,6 +220,31 @@ namespace StrategyGame.Infrastructure.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Battles",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AtkPower = table.Column<int>(type: "int", nullable: false),
+                    AtkPlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DefPlayerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TicksLeft = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Battles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Battles_AspNetUsers_AtkPlayerId",
+                        column: x => x.AtkPlayerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Battles_AspNetUsers_DefPlayerId",
+                        column: x => x.DefPlayerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -412,6 +422,16 @@ namespace StrategyGame.Infrastructure.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Battles_AtkPlayerId",
+                table: "Battles",
+                column: "AtkPlayerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Battles_DefPlayerId",
+                table: "Battles",
+                column: "DefPlayerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BuildingDatas_FactoryParametersId",
