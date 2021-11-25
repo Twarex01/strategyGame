@@ -11,5 +11,6 @@ namespace StrategyGame.Domain.Game
     {
         public Guid Id { get; set; }
         public int Current { get; set; }
+        public int TicksLeft { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace StrategyGame.Domain.Game
         public Guid StrategyGameUserId { get; set; }
         public StrategyGameUser StrategyGameUser { get; set; }
 
-        public int TimeLeft { get; set; }
+        public int TicksLeft { get; set; }
 
         public int CalcualtedReward { get; set; }
 

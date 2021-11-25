@@ -21,6 +21,12 @@ namespace StrategyGame.Infrastructure.EntityConfigurations
             builder.HasMany(x => x.Buildings).WithOne(x => x.StrategyGameUser).HasForeignKey(x => x.StrategyGameUserId);
 
             builder.HasMany(x => x.Gatherings).WithOne(x => x.StrategyGameUser).HasForeignKey(x => x.StrategyGameUserId);
+
+            //TODO: Check this
+
+            builder.HasMany(x => x.AttackBattles).WithOne(x => x.AtkPlayer).OnDelete(DeleteBehavior.NoAction).HasForeignKey(x => x.AtkPlayerId);
+
+            builder.HasMany(x => x.DefenseBattles).WithOne(x => x.DefPlayer).OnDelete(DeleteBehavior.NoAction).HasForeignKey(x => x.DefPlayerId);
         }
     }
 }
