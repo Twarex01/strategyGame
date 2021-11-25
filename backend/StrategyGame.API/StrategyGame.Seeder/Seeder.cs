@@ -232,7 +232,7 @@ namespace StrategyGame.Seeder
             if (roundStore.GetQuery(false).Count() != 0)
                 return;
 
-            roundStore.Add(new Round { Current = 1 });
+            roundStore.Add(new Round { Current = 1, TicksLeft = 0 });
             await roundStore.SaveChanges();
         }
 

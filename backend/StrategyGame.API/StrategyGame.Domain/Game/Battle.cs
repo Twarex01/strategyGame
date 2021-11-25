@@ -17,6 +17,6 @@ namespace StrategyGame.Domain.Game
 
         public Guid DefPlayer { get; set; }
 
-        public int TimeLeft { get; set; }
+        public int TicksLeft { get; set; }
     }
 }

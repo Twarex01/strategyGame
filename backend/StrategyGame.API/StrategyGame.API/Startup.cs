@@ -1,3 +1,4 @@
+using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -39,12 +40,14 @@ namespace StrategyGame.API
 
             services.ConfigureServices();
 
+            services.ConfigureHangfire(Configuration, HostEnvironment);
+
             services.ConfigureIdentity();
 
             services.ConfigureSwagger();
         }
 
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, IRecurringJobManager jobManager)
         {
             if (HostEnvironment.IsDevelopment())
             {
@@ -62,6 +65,10 @@ namespace StrategyGame.API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseHangfireJobs(jobManager, Configuration);
+
+            app.UseHangfireDashboard();
 
             app.UseStaticFiles();
 

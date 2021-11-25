@@ -39,6 +39,11 @@ namespace StrategyGame.Common.Stores
             dbContext.Add(entity);
         }
 
+        public void Remove(TEntity entity)
+        {
+            dbContext.Remove(entity);
+        }
+
         public async Task<int> SaveChanges(CancellationToken cancellationToken = default)
         {
             return await dbContext.SaveChangesAsync(cancellationToken);

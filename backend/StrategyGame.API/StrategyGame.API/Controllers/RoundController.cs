@@ -33,7 +33,7 @@ namespace StrategyGame.API.Controllers
         [HttpPost("end")]
         public async Task PostEndRound(CancellationToken cancellationToken)
         {
-            await roundService.EndRound(cancellationToken);
+            await roundService.TickRound(cancellationToken);
         }
     }
 }

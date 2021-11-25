@@ -13,6 +13,7 @@ namespace StrategyGame.Common.Constants
 
         public static readonly string ActionInProgress = "action_in_progress";
         public static readonly string ActionRequestTooLong = "action_request_too_long";
+        public static readonly string ActionRequestTooShort = "action_request_too_short";
 
         public static readonly string NotEnoughResources = "not_enough_resources";
         public static readonly string CannotAttackWithNoAtk = "cannot_attack_with_no_atk";

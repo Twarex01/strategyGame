@@ -9,7 +9,7 @@ namespace StrategyGame.Application.ServiceInterfaces
 {
     public interface IRoundService
     {
-        public Task EndRound(CancellationToken cancellationToken);
+        public Task TickRound(CancellationToken cancellationToken = default);
         public Task<int> GetRound(CancellationToken cancellationToken);
     }
 }

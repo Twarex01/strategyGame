@@ -27,6 +27,7 @@ namespace StrategyGame.Infrastructure
         public DbSet<Round> Round { get; set; }
         public DbSet<Scoreboard> Scoreboard { get; set; }
 
+
         public StrategyGameDbContext(DbContextOptions<StrategyGameDbContext> options) : base(options)
         {
         }

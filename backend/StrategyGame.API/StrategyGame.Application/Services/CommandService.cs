@@ -109,7 +109,7 @@ namespace StrategyGame.Application.Services
         {
             var userId = claimService.GetUserId();
 
-            if (gatheringStore.GetQuery(false).Any(x => x.StrategyGameUserId == userId && x.TimeLeft > 0))
+            if (gatheringStore.GetQuery(false).Any(x => x.StrategyGameUserId == userId && x.TicksLeft > 0))
                 throw new Exception(ErrorMessages.ActionInProgress);
 
             var gather = await gatheringDataStore.GetEntity(gatheringActionDto.GatherId, false, cancellationToken);
@@ -117,13 +117,16 @@ namespace StrategyGame.Application.Services
             if (gather.MaxTimeAllowed < gatheringActionDto.Time)
                 throw new Exception(ErrorMessages.ActionRequestTooLong);
 
-            var min = gather.MinimumBaseReward * gather.TimeMultiplier;
-            var max = gather.MaximumBaseReward * gather.TimeMultiplier;
+            if (0 >= gatheringActionDto.Time)
+                throw new Exception(ErrorMessages.ActionRequestTooShort);
+
+            var min = gather.MinimumBaseReward * gather.TimeMultiplier * gatheringActionDto.Time;
+            var max = gather.MaximumBaseReward * gather.TimeMultiplier * gatheringActionDto.Time;
 
             Random random = new Random();
             var calculatedReward = random.Next(min, max);
 
-            gatheringStore.Add(new Gathering { GatheringDataId = gatheringActionDto.GatherId, CalcualtedReward = calculatedReward, StrategyGameUserId = userId, TimeLeft = gatheringActionDto.Time });
+            gatheringStore.Add(new Gathering { GatheringDataId = gatheringActionDto.GatherId, CalcualtedReward = calculatedReward, StrategyGameUserId = userId, TicksLeft = gatheringActionDto.Time });
 
             await gatheringStore.SaveChanges();
         }

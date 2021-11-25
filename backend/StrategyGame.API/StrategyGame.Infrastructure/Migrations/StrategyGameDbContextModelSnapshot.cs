@@ -120,7 +120,7 @@ namespace StrategyGame.Infrastructure.Migrations
                     b.Property<Guid>("DefPlayer")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("TimeLeft")
+                    b.Property<int>("TicksLeft")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -224,7 +224,7 @@ namespace StrategyGame.Infrastructure.Migrations
                     b.Property<Guid>("StrategyGameUserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("TimeLeft")
+                    b.Property<int>("TicksLeft")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -310,6 +310,9 @@ namespace StrategyGame.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Current")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TicksLeft")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

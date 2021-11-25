@@ -54,7 +54,7 @@ namespace StrategyGame.Infrastructure.Migrations
                     AtkPower = table.Column<int>(type: "int", nullable: false),
                     AtkPlayer = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DefPlayer = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TimeLeft = table.Column<int>(type: "int", nullable: false)
+                    TicksLeft = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -108,7 +108,8 @@ namespace StrategyGame.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Current = table.Column<int>(type: "int", nullable: false)
+                    Current = table.Column<int>(type: "int", nullable: false),
+                    TicksLeft = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -281,7 +282,7 @@ namespace StrategyGame.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     StrategyGameUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TimeLeft = table.Column<int>(type: "int", nullable: false),
+                    TicksLeft = table.Column<int>(type: "int", nullable: false),
                     CalcualtedReward = table.Column<int>(type: "int", nullable: false),
                     GatheringDataId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },

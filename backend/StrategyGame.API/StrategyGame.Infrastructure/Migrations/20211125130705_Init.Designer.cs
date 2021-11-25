@@ -10,7 +10,7 @@ using StrategyGame.Infrastructure;
 namespace StrategyGame.Infrastructure.Migrations
 {
     [DbContext(typeof(StrategyGameDbContext))]
-    [Migration("20211124171250_Init")]
+    [Migration("20211125130705_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -122,7 +122,7 @@ namespace StrategyGame.Infrastructure.Migrations
                     b.Property<Guid>("DefPlayer")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("TimeLeft")
+                    b.Property<int>("TicksLeft")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -226,7 +226,7 @@ namespace StrategyGame.Infrastructure.Migrations
                     b.Property<Guid>("StrategyGameUserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("TimeLeft")
+                    b.Property<int>("TicksLeft")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -312,6 +312,9 @@ namespace StrategyGame.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Current")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TicksLeft")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

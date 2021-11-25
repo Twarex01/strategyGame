@@ -60,7 +60,7 @@ namespace StrategyGame.Application.Services
 
             var attackedPlayer = otherPlayers.ElementAt(index);
 
-            battleStore.Add(new Battle { AtkPlayer = userId, DefPlayer = attackedPlayer.Id, AtkPower = attackActionDto.Atk, TimeLeft = attackTime });
+            battleStore.Add(new Battle { AtkPlayer = userId, DefPlayer = attackedPlayer.Id, AtkPower = attackActionDto.Atk, TicksLeft = attackTime });
 
             await strategyGameUserStore.SaveChanges();
             await battleStore.SaveChanges();
