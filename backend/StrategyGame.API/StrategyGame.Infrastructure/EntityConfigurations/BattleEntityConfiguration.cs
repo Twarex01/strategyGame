@@ -10,8 +10,6 @@ namespace StrategyGame.Infrastructure.EntityConfigurations
         public void Configure(EntityTypeBuilder<Battle> builder)
         {
             builder.HasKey(x => x.Id);
-
-            //TODO
         }
     }
 }

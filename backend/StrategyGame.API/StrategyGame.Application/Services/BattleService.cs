@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using StrategyGame.Application.Dtos;
+using StrategyGame.Application.Options;
 using StrategyGame.Application.ServiceInterfaces;
 using StrategyGame.Common.Claims;
 using StrategyGame.Common.Constants;
@@ -22,14 +24,17 @@ namespace StrategyGame.Application.Services
         private readonly IEntityStore<Battle> battleStore;
         private readonly IClaimService claimService;
 
-        //TODO: From config
-        private const int attackTime = 3;
+        private readonly BattleOptions battleOptions;
 
-        public BattleService(IEntityStore<StrategyGameUser> strategyGameUserStore, IEntityStore<Battle> battleStore, IClaimService claimService)
+        public BattleService(IEntityStore<StrategyGameUser> strategyGameUserStore,
+                             IEntityStore<Battle> battleStore,
+                             IClaimService claimService,
+                             IOptionsSnapshot<BattleOptions> battleOptionsSnapshot)
         {
             this.strategyGameUserStore = strategyGameUserStore;
             this.battleStore = battleStore;
             this.claimService = claimService;
+            this.battleOptions = battleOptionsSnapshot.Value;
         }
 
         public async Task LaunchAttack(AttackActionDto attackActionDto, CancellationToken cancellationToken)
@@ -60,7 +65,7 @@ namespace StrategyGame.Application.Services
 
             var attackedPlayer = otherPlayers.ElementAt(index);
 
-            battleStore.Add(new Battle { AtkPlayerId = userId, DefPlayerId = attackedPlayer.Id, AtkPower = attackActionDto.Atk, TicksLeft = attackTime });
+            battleStore.Add(new Battle { AtkPlayerId = userId, DefPlayerId = attackedPlayer.Id, AtkPower = attackActionDto.Atk, TicksLeft = battleOptions.AttackTime });
 
             await strategyGameUserStore.SaveChanges();
             await battleStore.SaveChanges();

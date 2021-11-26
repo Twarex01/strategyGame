@@ -16,8 +16,6 @@ namespace Idea.Features.ProjektMicroservice.Application.Jobs
         public async Task RunTick() 
         {
             await roundService.TickRound();
-
-            //TODO: Signalr
         }
     }
 }
