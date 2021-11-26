@@ -110,32 +110,13 @@ const SectionA = styled.a`
     }
 
 `
-const SectionLink = styled(RouterLink)`
-    font-size: 1rem;
-    font-weight: 500;
-    text-decoration: none;
-    line-height: 1.5rem;
-
-
-    max-width: 40ch;
-    margin-left: 1rem;
-
-    &:hover, &:focus {
-        text-decoration: underline;
-        cursor: pointer;
-    }
-    &:focus{
-        outline: none !important;
-    }
-`
-
 
 const useStyles = makeStyles((theme) => ({
     outerWrapper: {
         backgroundImage: `url(${background})`,
     },
     link: {
-        color: theme.palette.primary.dark,
+        color: theme.palette.primary.contrastText,
         outline: "none !important",
     },
     title: {

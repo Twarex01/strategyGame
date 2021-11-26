@@ -1,14 +1,17 @@
 import * as yup from 'yup'
 
 const validationSchema = yup.object({
-    email: yup
-    .string('Adja meg email címét')
-    .email('Kérem adjon meg egy valós email címet')
-    .required("Szükséges mező"),
-    password: yup
-      .string('Adja meg jelszavát')
-      .min(8, 'A jelszónak legalább 8 karakter hosszúnak kell lennie')
-      .required('Szükséges mező'),
-  });
+  email: yup
+    .string('Please enter your email address')
+    .email('Please enter a valid email address')
+    .required("Required field"),
+  password: yup
+    .string()
+    .required('Please Enter your password')
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/,
+      "Must Contain 6 Characters, One Uppercase and One Lowercase Character"
+    ),
+});
 
-  export default validationSchema
+export default validationSchema

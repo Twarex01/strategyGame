@@ -6,7 +6,7 @@ const HeaderData = {
     siteName: "SG",
     options: [
         {
-            name: "Főoldal",
+            name: "Home",
             to: "/",
             icon: <HomeIcon />,
             onClick: (dispatch, setActive, idx) => {
@@ -16,7 +16,7 @@ const HeaderData = {
             disabled: false,
         },
         {
-            name: "Bejelentkezés",
+            name: "Login",
             to: "/login",
             icon: <BiLogIn />,
             onClick: (dispatch, setActive, idx) => {

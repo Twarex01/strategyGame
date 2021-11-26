@@ -10,6 +10,8 @@ const MainTheme = createTheme({
       main: siteconfig.themes.secondary.main,
       dark: siteconfig.themes.secondary.dark,
       contrastText: siteconfig.themes.secondary.contrastText,
+      successText: siteconfig.themes.secondary.successText,
+      failText: siteconfig.themes.secondary.failText,
     },
   },
 });
