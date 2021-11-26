@@ -76,8 +76,6 @@ namespace StrategyGame.Application.Services
 
         public async Task StartBuildingAction(BuildingActionDto buildingActionDto, CancellationToken cancellationToken)
         {
-            //TODO: Concurency
-
             var userId = claimService.GetUserId();
 
             var buildingData = await buildingDataStore.GetEntity(buildingActionDto.BuildingId, false, cancellationToken);

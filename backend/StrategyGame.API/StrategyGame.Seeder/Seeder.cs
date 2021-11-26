@@ -96,7 +96,6 @@ namespace StrategyGame.Seeder
             await resourceStore.SaveChanges();
         }
 
-        //TODO: From config
         private async Task SeedGatheringData()
         {
             var previousGatheringData = gatheringDataStore.GetQuery(false);
@@ -117,7 +116,6 @@ namespace StrategyGame.Seeder
         {
             var previousBuildingData = buildingDataStore.GetQuery(false);
 
-            //temporary
             var type = BuildingType.Factory;
             if (previousBuildingData.Count() == 3)
                 return;

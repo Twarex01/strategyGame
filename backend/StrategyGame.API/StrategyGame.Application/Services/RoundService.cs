@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using StrategyGame.Application.Hubs;
+using StrategyGame.Application.Options;
 using StrategyGame.Application.ServiceInterfaces;
 using StrategyGame.Common.Enums;
 using StrategyGame.Common.Stores;
@@ -24,13 +26,15 @@ namespace StrategyGame.Application.Services
         private readonly IEntityStore<Gathering> gatheringStore;
         private readonly IHubContext<RoundHub, IRoundHubClient> hubContext;
 
-        //TODO: config
-        private const int ticksPerRound = 6;
-        private const int autoGain = 50;
-        private const int stealPow = 4;
-        private const int lossPow = 2;
+        private readonly RoundOptions roundOptions;
 
-        public RoundService(IEntityStore<Round> roundStore, IEntityStore<StrategyGameUser> strategyGameUserStore, IEntityStore<Scoreboard> scoreboardStore, IEntityStore<Battle> battleStore, IEntityStore<Gathering> gatheringStore, IHubContext<RoundHub, IRoundHubClient> hubContext)
+        public RoundService(IEntityStore<Round> roundStore,
+                            IEntityStore<StrategyGameUser> strategyGameUserStore,
+                            IEntityStore<Scoreboard> scoreboardStore,
+                            IEntityStore<Battle> battleStore,
+                            IEntityStore<Gathering> gatheringStore,
+                            IHubContext<RoundHub, IRoundHubClient> hubContext,
+                            IOptionsSnapshot<RoundOptions> roundOptionsSnapshot)
         {
             this.roundStore = roundStore;
             this.strategyGameUserStore = strategyGameUserStore;
@@ -38,6 +42,7 @@ namespace StrategyGame.Application.Services
             this.battleStore = battleStore;
             this.gatheringStore = gatheringStore;
             this.hubContext = hubContext;
+            this.roundOptions = roundOptionsSnapshot.Value;
         }
 
         private async Task TickLeaderboard(CancellationToken cancellationToken) 
@@ -97,7 +102,7 @@ namespace StrategyGame.Application.Services
                         {
                             attackSuccesful = true;
 
-                            defUnitsLost = defPower.Amount / lossPow;
+                            defUnitsLost = defPower.Amount / roundOptions.LossPow;
 
                             defPower.Amount = defPower.Amount - defUnitsLost;
 
@@ -105,7 +110,7 @@ namespace StrategyGame.Application.Services
 
                             foreach (var resource in defResources)
                             {
-                                var stolenAmount = resource.Amount - resource.Amount / stealPow;
+                                var stolenAmount = resource.Amount - resource.Amount / roundOptions.StealPow;
 
                                 battle.AtkPlayer.Resources.SingleOrDefault(x => x.ResourceData.Type == resource.ResourceData.Type).Amount += stolenAmount;
 
@@ -114,7 +119,7 @@ namespace StrategyGame.Application.Services
                         }
                         else
                         {
-                            atkUnitsLost = battle.AtkPower / lossPow;
+                            atkUnitsLost = battle.AtkPower / roundOptions.LossPow;
 
                             battle.AtkPower = battle.AtkPower - atkUnitsLost;
                         }
@@ -196,7 +201,7 @@ namespace StrategyGame.Application.Services
             {
                 foreach (var resource in user.Resources)
                 {
-                    var resourceGain = autoGain;
+                    var resourceGain = roundOptions.AutoGain;
 
                     var resourceType = resource.ResourceData.Type;
 
@@ -227,7 +232,7 @@ namespace StrategyGame.Application.Services
 
                 await TickLeaderboard(cancellationToken);
 
-                round.TicksLeft = ticksPerRound;
+                round.TicksLeft = roundOptions.TicksPerRound;
 
                 round.Current++;
 

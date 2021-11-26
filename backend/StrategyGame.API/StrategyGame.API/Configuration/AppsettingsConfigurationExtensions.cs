@@ -11,6 +11,8 @@ namespace Microsoft.Extensions.DependencyInjection
                IConfiguration configuration)
         {
             services.Configure<JwtTokenOptions>(configuration.GetSection("JWT"));
+            services.Configure<RoundOptions>(configuration.GetSection("Round"));
+            services.Configure<BattleOptions>(configuration.GetSection("Battle"));
 
             return services;
         }
