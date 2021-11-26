@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using StrategyGame.Application.Hubs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,8 @@ namespace StrategyGame.API
 
             services.ConfigureHangfire(Configuration, HostEnvironment);
 
+            services.ConfigureSignalR(Configuration, HostEnvironment);
+
             services.ConfigureIdentity();
 
             services.ConfigureSwagger();
@@ -76,6 +79,7 @@ namespace StrategyGame.API
             {
                 endpoints.MapHealthChecks("/health");
                 endpoints.MapControllers();
+                endpoints.MapHub<RoundHub>("/roundhub");
             });
         }
     }

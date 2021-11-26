@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
+using StrategyGame.Application.Hubs;
 using StrategyGame.Application.ServiceInterfaces;
 using StrategyGame.Common.Enums;
 using StrategyGame.Common.Stores;
@@ -20,6 +22,7 @@ namespace StrategyGame.Application.Services
         private readonly IEntityStore<Scoreboard> scoreboardStore;
         private readonly IEntityStore<Battle> battleStore;
         private readonly IEntityStore<Gathering> gatheringStore;
+        private readonly IHubContext<RoundHub, IRoundHubClient> hubContext;
 
         //TODO: config
         private const int ticksPerRound = 6;
@@ -27,13 +30,14 @@ namespace StrategyGame.Application.Services
         private const int stealPow = 4;
         private const int lossPow = 2;
 
-        public RoundService(IEntityStore<Round> roundStore, IEntityStore<StrategyGameUser> strategyGameUserStore, IEntityStore<Scoreboard> scoreboardStore, IEntityStore<Battle> battleStore, IEntityStore<Gathering> gatheringStore)
+        public RoundService(IEntityStore<Round> roundStore, IEntityStore<StrategyGameUser> strategyGameUserStore, IEntityStore<Scoreboard> scoreboardStore, IEntityStore<Battle> battleStore, IEntityStore<Gathering> gatheringStore, IHubContext<RoundHub, IRoundHubClient> hubContext)
         {
             this.roundStore = roundStore;
             this.strategyGameUserStore = strategyGameUserStore;
             this.scoreboardStore = scoreboardStore;
             this.battleStore = battleStore;
             this.gatheringStore = gatheringStore;
+            this.hubContext = hubContext;
         }
 
         private async Task TickLeaderboard(CancellationToken cancellationToken) 
@@ -81,13 +85,21 @@ namespace StrategyGame.Application.Services
 
                 foreach (var battle in battles)
                 {
+                    bool attackSuccesful = false;
+                    int atkUnitsLost = 0;
+                    int defUnitsLost = 0;
+
                     if (battle.TicksLeft <= 0)
                     {
                         var defPower = battle.DefPlayer.Resources.SingleOrDefault(x => x.ResourceData.Type == ResourceType.Atk);
 
                         if (battle.AtkPower > defPower.Amount)
                         {
-                            defPower.Amount = defPower.Amount - defPower.Amount / lossPow;
+                            attackSuccesful = true;
+
+                            defUnitsLost = defPower.Amount / lossPow;
+
+                            defPower.Amount = defPower.Amount - defUnitsLost;
 
                             var defResources = battle.DefPlayer.Resources.Where(x => x.ResourceData.Type != ResourceType.Atk);
 
@@ -102,14 +114,18 @@ namespace StrategyGame.Application.Services
                         }
                         else
                         {
-                            battle.AtkPower = battle.AtkPower - battle.AtkPower / lossPow;
+                            atkUnitsLost = battle.AtkPower / lossPow;
+
+                            battle.AtkPower = battle.AtkPower - atkUnitsLost;
                         }
 
                         var atkUnits = battle.AtkPlayer.Resources.SingleOrDefault(x => x.ResourceData.Type == ResourceType.Atk).Amount += battle.AtkPower;
 
                         battleStore.Remove(battle);
 
-                        //Notify
+                        //TODO: set claim
+                        await hubContext.Clients.User(battle.AtkPlayer.Id.ToString()).AttackEnded(attackSuccesful, atkUnitsLost);
+                        await hubContext.Clients.User(battle.DefPlayer.Id.ToString()).DefenseEnded(!attackSuccesful, defUnitsLost);
                     }
                     else
                     {
@@ -146,6 +162,8 @@ namespace StrategyGame.Application.Services
                             user.Resources.SingleOrDefault(x => x.ResourceData.Type == gathering.GatheringData.Type).Amount += gathering.CalcualtedReward;
 
                             gatheringStore.Remove(gathering);
+
+                            await hubContext.Clients.User(user.Id.ToString()).GatherDone();
                         }
                         else
                         {
@@ -212,6 +230,8 @@ namespace StrategyGame.Application.Services
                 round.TicksLeft = ticksPerRound;
 
                 round.Current++;
+
+                await hubContext.Clients.All.TurnEnded();
             }
             else 
             {
