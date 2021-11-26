@@ -17,6 +17,9 @@ import Landing from './pages/Landing/Landing'
 import Login from './pages/Login/Login'
 import NotFound from './pages/NotFound/NotFound'
 
+import Toplist from './pages/Toplist/Toplist'
+import Game from './pages/Game/Game'
+
 const BodyWrapper = styled.div`
     min-height: 100vh;
     display: flex;
@@ -38,6 +41,9 @@ function App() {
           <Routes>
             <Route exact path="/" element={<Landing />} />
             <Route exact path="/login" element={<Login />} />
+
+            <Route exact path="/auth/game" element={<Game />} />
+            <Route exact path="/auth/toplist" element={<Toplist />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
 

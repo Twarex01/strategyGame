@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 import Drawer from '@material-ui/core/Drawer'
@@ -33,8 +33,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 
 import { useSelector, useDispatch } from 'react-redux'
 
-import { setActive } from 'redux/slices/HeaderSlice'
-
+import { logout } from 'redux/slices/HeaderSlice'
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -53,9 +52,13 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     backgroundImage: `url(${background})`,
     fontFamily: "raleway",
-
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
   },
   toolbar: {
+    maxWidth: "1200px",
+
     height: '100%',
     width: "100%",
     display: 'flex',
@@ -107,7 +110,6 @@ const useStyles = makeStyles((theme) => ({
   },
   bigList: {
     display: "flex",
-    margin: "0 2rem",
   },
   paper: {
     backgroundImage: `url(${background})`,
@@ -170,6 +172,7 @@ const useStyles = makeStyles((theme) => ({
   bigMenu: {
     color: theme.palette.primary.contrastText,
     display: "flex",
+    margin: "0 2rem",
     alignItems: "center",
     [theme.breakpoints.up('md')]: {
       display: "flex",
@@ -181,36 +184,42 @@ const Header = (props) => {
   const theme = useTheme()
   const classes = useStyles(theme)
 
+  const dispatch = useDispatch()
+
+  const auth = useSelector(store => store.nonPersistedReducers.headerSliceReducer.auth)
+
   const handleLogout = () => {
+    localStorage.removeItem("token")
+    dispatch(logout())
   }
-
-  const handleLogin = () => {
-  }
-
   //const auth = useSelector((state) => state.persistedReducers.authSliceReducer.isLoggedIn)
   const curActive = useSelector(state => state.nonPersistedReducers.headerSliceReducer.active)
 
   // Temporary drawer
-  const [drawer, setDrawer] = useState(false)
-
-  const toggleDrawer = () => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return
-    }
-    setDrawer(!drawer)
-
+  const isAuthenticated = () => {
+    if (localStorage.getItem("token")) return true
+    return false
   }
 
-  const [adminOptionsOpen, setAdminOptionsOpen] = useState(false)
-  const [siteOptionsOpen, setSiteOptionsOpen] = useState(false)
-  const [profileOptionsOpen, setProfileOptionsOpen] = useState(false)
+  const calcOptionsAuth = () => (
+    <List
+      component="nav"
+      className={classes.bigList}
+    >
+      {HeaderData.optionsAuth.map((option, idx) => (
+        <ListItem disabled={option.disabled} className={(curActive === idx) ? classes.activeItem : classes.listItem} component={RouterLink} to={option.to} key={`header_big_option_${idx}`} >
+          <ListItemText classes={{ primary: classes.bigListItemText }} primary={option.name} />
+        </ListItem>
+      ))}
+      <ListItem disabled={false} onClick={handleLogout} className={classes.listItem} component={RouterLink} to={"/"} key={`header_big_option_logout`} >
+        <ListItemText classes={{ primary: classes.bigListItemText }} primary={"Kijelentkezés"} />
+      </ListItem>
 
-  const toggleAdminOptions = () => { setAdminOptionsOpen(!adminOptionsOpen); setSiteOptionsOpen(false); setProfileOptionsOpen(false); }
-  const toggleSiteOptions = () => { setSiteOptionsOpen(!siteOptionsOpen); setAdminOptionsOpen(false); setProfileOptionsOpen(false); }
-  const toggleProfileOptions = () => { setProfileOptionsOpen(!profileOptionsOpen); setSiteOptionsOpen(false); setAdminOptionsOpen(false); }
+    </List>
+  )
 
 
-  const bigList = () => (
+  const calcOptions = () => (
     <List
       component="nav"
       className={classes.bigList}
@@ -220,8 +229,18 @@ const Header = (props) => {
           <ListItemText classes={{ primary: classes.bigListItemText }} primary={option.name} />
         </ListItem>
       ))}
+
+      <ListItem disabled={false} className={classes.listItem} component={RouterLink} to={"/login"} key={`header_big_option_login`} >
+        <ListItemText classes={{ primary: classes.bigListItemText }} primary={"Bejelentkezés"} />
+      </ListItem>
     </List>
   )
+
+  const [options, setOptions] = useState()
+
+  useEffect(() => {
+    auth ? setOptions(calcOptionsAuth()) : setOptions(calcOptions())
+  }, [auth])
 
   return (
     <div className={classes.root}>
@@ -241,7 +260,8 @@ const Header = (props) => {
               </Typography >
           }
           <div className={classes.bigMenu}>
-            {bigList()}
+            {options}
+
           </div>
         </Toolbar>
       </AppBar>

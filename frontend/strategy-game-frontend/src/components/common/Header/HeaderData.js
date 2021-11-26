@@ -14,18 +14,29 @@ const HeaderData = {
             },
             divider: false,
             disabled: false,
-        },
+        }
+    ],
+    optionsAuth: [
         {
-            name: "Bejelentkezés",
-            to: "/login",
-            icon: <BiLogIn />,
+            name: "Játék",
+            to: "/auth/game",
+            icon: <HomeIcon />,
             onClick: (dispatch, setActive, idx) => {
                 dispatch(setActive(idx));
             },
             divider: false,
             disabled: false,
         },
-
+        {
+            name: "Ranglista",
+            to: "/auth/toplist",
+            icon: <HomeIcon />,
+            onClick: (dispatch, setActive, idx) => {
+                dispatch(setActive(idx));
+            },
+            divider: false,
+            disabled: false,
+        }
     ],
 }
 

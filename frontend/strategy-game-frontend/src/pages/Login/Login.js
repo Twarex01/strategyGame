@@ -2,7 +2,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-
+import { useNavigate } from "react-router-dom"
 import axios from 'axios'
 
 import background from "assets/images/login-background.jpg"
@@ -13,7 +13,8 @@ import styled from "styled-components"
 import { useState } from 'react';
 
 import { errorToast, successToast } from 'components/common/Toast/Toast'
-
+import { useDispatch } from 'react-redux';
+import { login } from 'redux/slices/HeaderSlice'
 
 const LoginWrapper = styled.div`
     width: 100%;
@@ -90,7 +91,9 @@ const Login = () => {
     const theme = useTheme()
     const classes = useStyles(theme);
 
-    const [response, setResponse] = useState()
+    const dispatch = useDispatch()
+
+    const [response, setResponse] = useState(false)
     const [error, setError] = useState()
     const [loading, setLoading] = useState(false)
     const [status, setStatus] = useState()
@@ -99,19 +102,20 @@ const Login = () => {
         try {
             setLoading(true)
             const res = await axios.post(
-                'http://localhost:44365/api/user/login',
+                'https://localhost:44365/api/user/login',
                 values
             )
             setLoading(false)
             setStatus(res.status)
-            setResponse(res.data)
-            if(res.status === 200){
+            if (res.status === 200) {
+                setResponse(true)
                 localStorage.setItem("token", res.data)
                 successToast("Operation successful!")
 
             } else {
                 errorToast("Error :" + res.status)
             }
+            return res
         } catch (err) {
             errorToast(err)
             setError(err)
@@ -119,14 +123,22 @@ const Login = () => {
         }
     }
 
+    const navigate = useNavigate()
+
     const formik = useFormik({
         initialValues: {
             email: '',
             password: '',
         },
         validationSchema: validationSchema,
-        onSubmit: (values) => {
-            handleLogin(values)
+        onSubmit: async (values) => {
+            await handleLogin(values)
+                .then(res => {
+                    if (res.status === 200 && localStorage.getItem("token")) {
+                        dispatch(login())
+                        navigate("/game/home")
+                    }
+                })
         },
     });
 

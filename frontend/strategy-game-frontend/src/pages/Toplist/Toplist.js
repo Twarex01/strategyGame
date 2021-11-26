@@ -28,7 +28,7 @@ const DescriptionText = styled.h2`
     height: 1.25rem;
 `
 
-const Landing = () => {
+const Toplist = () => {
 
     return (
 
@@ -47,4 +47,4 @@ const Landing = () => {
     );
 }
 
-export default Landing
+export default Toplist

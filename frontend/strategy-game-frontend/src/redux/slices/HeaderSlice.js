@@ -3,16 +3,19 @@ import { createSlice } from '@reduxjs/toolkit'
 export const headerSlice = createSlice({
   name: 'header',
   initialState: {
-    active: null,
+    auth: false,
   },
   reducers: {
-    setActive: (state, action) => {
-      state.active = action.payload
+    login: (state, action) => {
+      state.auth = true
+    },
+    logout: (state, action) => {
+      state.auth = false
     },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setActive } = headerSlice.actions
+export const { login, logout } = headerSlice.actions
 
 export default headerSlice.reducer

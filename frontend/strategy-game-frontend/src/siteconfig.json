@@ -8,13 +8,13 @@
             "contrastText": "#ffffff"
         },
         "secondary": {
-            "main": "#D2B48C",
-            "mainOriginal": "#1598a7",
-            "darkOriginal": "#002836",
-            "dark": "#1f1c16",
-            "light": "#706553",
-            "lightOriginal": "#e6f4f1",
-            "contrastText": "#ffffff"
+            "main": "#262729",
+            "dark": "#262729",
+            "light": "#537D8D",
+            "lightOriginal": "#D7D9D7",
+            "contrastText": "#D7D9D7",
+            "successText": "#00AF54",
+            "failText": "#461220"
         }
     }
 }
