@@ -1,0 +1,38 @@
+import { toast } from 'react-toastify';
+
+const toastStlye = {
+    position: "bottom-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+}
+
+const progressStlye = {
+    position: "bottom-right",
+    autoClose: false,
+    hideProgressBar: false,
+    closeOnClick: false,
+    pauseOnHover: false,
+    closeButton: false,
+    draggable: false,
+    progress: undefined,
+}
+
+const progressToast = (message) => {
+    toast.info(message, progressStlye);
+}
+const successToast = (message) => {
+    toast.success(message, toastStlye);
+}
+const errorToast = (errorMsg) => {
+    toast.error(`Error: ${errorMsg}`, toastStlye);
+}
+
+const warningToast = (warningMsg) => {
+    toast.error(`Error: ${warningMsg}`, toastStlye);
+}
+
+export { successToast, errorToast, warningToast, progressToast }
