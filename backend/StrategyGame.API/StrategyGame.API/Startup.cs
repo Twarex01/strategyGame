@@ -39,6 +39,8 @@ namespace StrategyGame.API
 
             services.ConfigureStores();
 
+            services.ConfigureCors();
+
             services.ConfigureServices();
 
             services.ConfigureHangfire(Configuration, HostEnvironment);
@@ -61,7 +63,7 @@ namespace StrategyGame.API
 
             app.UseHttpsRedirection();
 
-            app.UseCors();
+            app.UseConfiguredCors();
 
             app.UseAuthentication();
 
