@@ -39,12 +39,13 @@ namespace StrategyGame.Application.Services
 
         public async Task<IEnumerable<BuildingViewModel>> QueryBuildingActions(CancellationToken cancellationToken)
         {
-            return buildingDataStore.GetQuery(false)
-                                    .Include(x => x.Cost)
-                                    .Select(x => new BuildingViewModel
-                                    {
-                                        Id = x.Id, BuildingType = x.Type, FactoryParameters = x.FactoryParameters, BuildingPrice = x.Cost.Select(y => new BuildingPriceViewModel { Key = y.Key, Value = y.Value })
-                                    });
+            return buildingDataStore.GetQuery(false).Select(x => new BuildingViewModel
+            {
+                Id = x.Id,
+                BuildingType = x.Type,
+                FactoryParameters = x.FactoryParameters,
+                BuildingPrice = x.Cost.ToList()
+            });
         }
 
         public async Task<IEnumerable<GatheringViewModel>> QueryGatheringActions(CancellationToken cancellationToken)
