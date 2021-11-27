@@ -15,6 +15,7 @@ namespace StrategyGame.Application.ServiceInterfaces
         public Task StartBuildingAction(BuildingActionDto buildingActionDto, CancellationToken cancellationToken);
         public Task<TradeResultViewModel> StartTradeAction(TradeActionDto tradeActionDto, CancellationToken cancellationToken);
         public Task<IEnumerable<GatheringViewModel>> QueryGatheringActions(CancellationToken cancellationToken);
+        public Task<GatheringProgressViewModel> QueryGatheringInProgress(CancellationToken cancellationToken);
         public Task<IEnumerable<BuildingViewModel>> QueryBuildingActions(CancellationToken cancellationToken);
         public Task<IEnumerable<TradeViewModel>> QueryTradeActions(CancellationToken cancellationToken);
     }

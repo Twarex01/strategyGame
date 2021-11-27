@@ -49,6 +49,12 @@ namespace StrategyGame.API.Controllers
             await commandService.StartGatheringAction(gatheringActionDto, cancellationToken);
         }
 
+        [HttpGet("gather/inprogress")]
+        public async Task<GatheringProgressViewModel> GetGatherInProgress(CancellationToken cancellationToken)
+        {
+            return await commandService.QueryGatheringInProgress(cancellationToken);
+        }
+
         [HttpGet("trade/actions")]
         public async Task<IEnumerable<TradeViewModel>> GetTrades(CancellationToken cancellationToken)
         {
@@ -66,5 +72,12 @@ namespace StrategyGame.API.Controllers
         {
             await battleService.LaunchAttack(attackActionDto, cancellationToken);
         }
+
+        [HttpGet("attack/inprogress")]
+        public async Task<IEnumerable<BattleInProgressViewModel>> GetAttackInProgress(CancellationToken cancellationToken)
+        {
+            return await battleService.QueryBattleInProgress(cancellationToken);
+        }
+
     }
 }
