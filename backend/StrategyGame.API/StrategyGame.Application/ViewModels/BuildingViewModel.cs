@@ -16,6 +16,6 @@ namespace StrategyGame.Application.ViewModels
 
         public FactoryParameter? FactoryParameters { get; set; }
 
-        public IEnumerable<BuildingPriceViewModel> BuildingPrice { get; set; }
+        public IEnumerable<BuildingPrice> BuildingPrice { get; set; }
     }
 }
