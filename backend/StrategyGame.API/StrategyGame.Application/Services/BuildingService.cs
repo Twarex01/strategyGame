@@ -15,23 +15,23 @@ using System.Threading.Tasks;
 
 namespace StrategyGame.Application.Services
 {
-    public class ResourceService : IResourceService
+    public class BuildingService : IBuildingService
     {
-        private readonly IEntityStore<Resource> resourceStore;
+        private readonly IEntityStore<Building> buildingStore;
         private readonly IClaimService claimService;
 
-        public ResourceService(IEntityStore<Resource> resourceStore, IClaimService claimService)
+        public BuildingService(IEntityStore<Building> buildingStore, IClaimService claimService)
         {
-            this.resourceStore = resourceStore;
+            this.buildingStore = buildingStore;
             this.claimService = claimService;
         }
 
-        public async Task<IEnumerable<PlayerResourceViewModel>> GetAllResources(CancellationToken cancellationToken)
+        public async Task<IEnumerable<PlayerBuildingViewModel>> GetAllBuildings(CancellationToken cancellationToken)
         {
-            return resourceStore.GetQuery(false)
-                                .Include(x => x.ResourceData)
+            return buildingStore.GetQuery(false)
+                                .Include(x => x.BuildingData)
                                 .Where(x => x.StrategyGameUserId == claimService.GetUserId())
-                                .Select(x => new PlayerResourceViewModel { Amount = x.Amount, Type = x.ResourceData.Type });
+                                .Select(x => new PlayerBuildingViewModel { Amount = x.Amount, BuildingType = x.BuildingData.Type, FactoryParameters = x.BuildingData.FactoryParameters });
         }
     }
 }

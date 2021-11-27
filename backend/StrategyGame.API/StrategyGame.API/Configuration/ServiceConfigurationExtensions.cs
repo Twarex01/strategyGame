@@ -15,6 +15,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IBattleService, BattleService>();
             services.AddScoped<ICommandService, CommandService>();
             services.AddScoped<IResourceService, ResourceService>();
+            services.AddScoped<IBuildingService, BuildingService>();
             services.AddScoped<IRoundService, RoundService>();
             services.AddScoped<IStatsService, StatsService>();
             services.AddScoped<IUserService, UserService>();
