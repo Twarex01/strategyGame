@@ -1,4 +1,5 @@
 ﻿using StrategyGame.Application.Dtos;
+using StrategyGame.Application.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,7 @@ namespace StrategyGame.Application.ServiceInterfaces
     public interface IBattleService
     {
         public Task LaunchAttack(AttackActionDto attackActionDto, CancellationToken cancellationToken);
+
+        public Task<IEnumerable<BattleInProgressViewModel>> QueryBattleInProgress(CancellationToken cancellationToken);
     }
 }

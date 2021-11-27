@@ -62,6 +62,14 @@ namespace StrategyGame.Application.Services
                                      });
         }
 
+        public async Task<GatheringProgressViewModel> QueryGatheringInProgress(CancellationToken cancellationToken)
+        {
+            var userId = claimService.GetUserId();
+
+            //TODO config
+            return gatheringStore.GetQuery(false).Where(x => x.StrategyGameUserId == userId).Select(x => new GatheringProgressViewModel { resourceType = x.GatheringData.Type, TimeLeft = x.TicksLeft * 5}).FirstOrDefault();
+        }
+
         public async Task<IEnumerable<TradeViewModel>> QueryTradeActions(CancellationToken cancellationToken)
         {
             return tradeDataStore.GetQuery(false)

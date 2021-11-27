@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using StrategyGame.Application.Dtos;
 using StrategyGame.Application.Options;
 using StrategyGame.Application.ServiceInterfaces;
+using StrategyGame.Application.ViewModels;
 using StrategyGame.Common.Claims;
 using StrategyGame.Common.Constants;
 using StrategyGame.Common.Enums;
@@ -69,6 +70,14 @@ namespace StrategyGame.Application.Services
 
             await strategyGameUserStore.SaveChanges();
             await battleStore.SaveChanges();
+        }
+
+        public async Task<IEnumerable<BattleInProgressViewModel>> QueryBattleInProgress(CancellationToken cancellationToken)
+        {
+            var userId = claimService.GetUserId();
+
+            //TODO config
+            return battleStore.GetQuery(false).Where(x => x.AtkPlayerId == userId).Select(x => new BattleInProgressViewModel { AtkPower = x.AtkPower, TimeLeft = x.TicksLeft * 5 });
         }
     }
 }
