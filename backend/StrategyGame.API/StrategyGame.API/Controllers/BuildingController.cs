@@ -13,21 +13,21 @@ using System.Threading.Tasks;
 namespace StrategyGame.API.Controllers
 {
     [Authorize]
-    [Route("api/resource")]
+    [Route("api/building")]
     [ApiController]
-    public class ResourceController : Controller
+    public class BuildingController : Controller
     {
-        private readonly IResourceService resourceService;
+        private readonly IBuildingService buildingService;
 
-        public ResourceController(IResourceService resourceService)
+        public BuildingController(IBuildingService buildingService)
         {
-            this.resourceService = resourceService;
+            this.buildingService = buildingService;
         }
 
         [HttpGet("all")]
-        public Task<IEnumerable<PlayerResourceViewModel>> GetResources(CancellationToken cancellationToken)
+        public Task<IEnumerable<PlayerBuildingViewModel>> GetResources(CancellationToken cancellationToken)
         {
-            return resourceService.GetAllResources(cancellationToken);
+            return buildingService.GetAllBuildings(cancellationToken);
         }
     }
 }

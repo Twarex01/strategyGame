@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace StrategyGame.Application.ServiceInterfaces
 {
-    public interface IResourceService
+    public interface IBuildingService
     {
-        Task<IEnumerable<PlayerResourceViewModel>> GetAllResources(CancellationToken cancellationToken);
+        Task<IEnumerable<PlayerBuildingViewModel>> GetAllBuildings(CancellationToken cancellationToken);
     }
 }

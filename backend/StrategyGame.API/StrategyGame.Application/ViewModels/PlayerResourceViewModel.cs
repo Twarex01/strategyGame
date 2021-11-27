@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StrategyGame.Application.ViewModels
 {
-    public class ResourceViewModel
+    public class PlayerResourceViewModel
     {
         public ResourceType Type { get; set; }
 
