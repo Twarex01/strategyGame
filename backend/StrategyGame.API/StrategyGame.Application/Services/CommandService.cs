@@ -79,11 +79,11 @@ namespace StrategyGame.Application.Services
         {
             var userId = claimService.GetUserId();
 
-            var buildingData = await buildingDataStore.GetEntity(buildingActionDto.BuildingId, false, cancellationToken);
+            var building = buildingStore.GetQuery(true).Include(x => x.BuildingData).ThenInclude(x => x.Cost).SingleOrDefault(x => x.StrategyGameUserId == userId && x.BuildingDataId == buildingActionDto.BuildingId);
 
             var playerResources = resourceStore.GetQuery(true).Include(x => x.ResourceData).Where(x => x.StrategyGameUserId == userId);
 
-            foreach (var item in buildingData.Cost)
+            foreach (var item in building.BuildingData.Cost)
             {
                 var resource = await playerResources.SingleOrDefaultAsync(x => x.ResourceData.Type == item.Key);
 
@@ -91,14 +91,14 @@ namespace StrategyGame.Application.Services
                     throw new Exception(ErrorMessages.NotEnoughResources);
             }
 
-            foreach (var item in buildingData.Cost)
+            foreach (var item in building.BuildingData.Cost)
             {
                 var resource = await playerResources.SingleOrDefaultAsync(x => x.ResourceData.Type == item.Key);
 
                 resource.Amount -= item.Value;
             }
 
-            buildingStore.GetQuery(true).Include(x => x.BuildingData).SingleOrDefault(x => x.BuildingDataId == buildingData.Id).Amount++;
+            building.Amount++;
 
             await resourceStore.SaveChanges();
             await buildingStore.SaveChanges();
