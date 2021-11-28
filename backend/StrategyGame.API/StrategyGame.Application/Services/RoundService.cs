@@ -129,9 +129,8 @@ namespace StrategyGame.Application.Services
 
                         battleStore.Remove(battle);
 
-                        //TODO: set claim
-                        await hubContext.Clients.All.AttackEnded(new BattleDoneDto { Success = attackSuccesful, UnitsLost = atkUnitsLost });
-                        await hubContext.Clients.All.DefenseEnded(new BattleDoneDto { Success = !attackSuccesful, UnitsLost = defUnitsLost });
+                        await hubContext.Clients.Group(battle.AtkPlayerId.ToString()).AttackEnded(new BattleDoneDto { Success = attackSuccesful, UnitsLost = atkUnitsLost });
+                        await hubContext.Clients.Group(battle.DefPlayerId.ToString()).AttackEnded(new BattleDoneDto { Success = !attackSuccesful, UnitsLost = defUnitsLost });
                     }
                     else
                     {
@@ -169,7 +168,7 @@ namespace StrategyGame.Application.Services
 
                             gatheringStore.Remove(gathering);
 
-                            await hubContext.Clients.All.GatherDone();
+                            await hubContext.Clients.Group(user.Id.ToString()).GatherDone();
                         }
                         else
                         {
