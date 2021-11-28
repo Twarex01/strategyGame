@@ -12,7 +12,7 @@ const TitleWrapper = styled.div`
     widht: 100%;
     max-width: 1000px;
     text-align: center;
-    margin: 1rem;
+    margin: 2rem;
 
 `
 const DescriptionWrapper = styled.div`
@@ -40,7 +40,7 @@ const Landing = () => {
             </TitleWrapper>
             <DescriptionWrapper>
                 <DescriptionText>
-                    <iframe width="750" height="427" src="https://www.youtube.com/embed/pYk_zkA19Nw?autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    Please login to begin your journey...
                 </DescriptionText>
             </DescriptionWrapper>
         </LandingWrapper>
