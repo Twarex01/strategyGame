@@ -79,8 +79,9 @@ namespace StrategyGame.Application.Services
         {
             var userId = claimService.GetUserId();
 
-            //TODO config
-            return battleStore.GetQuery(false).Where(x => x.AtkPlayerId == userId).Select(x => new BattleInProgressViewModel { AtkPower = x.AtkPower, TimeLeft = x.TicksLeft * int.Parse(roundOptions.TickIntervalInMinutes) });
+            int minutes = int.Parse(roundOptions.TickIntervalInMinutes);
+
+            return battleStore.GetQuery(false).Where(x => x.AtkPlayerId == userId).Select(x => new BattleInProgressViewModel { AtkPower = x.AtkPower, TimeLeft = x.TicksLeft * minutes + minutes });
         }
     }
 }

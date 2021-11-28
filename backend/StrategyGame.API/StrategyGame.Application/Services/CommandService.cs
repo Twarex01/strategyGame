@@ -77,7 +77,9 @@ namespace StrategyGame.Application.Services
         {
             var userId = claimService.GetUserId();
 
-            return gatheringStore.GetQuery(false).Where(x => x.StrategyGameUserId == userId).Select(x => new GatheringProgressViewModel { resourceType = x.GatheringData.Type, TimeLeft = x.TicksLeft * int.Parse(roundOptions.TickIntervalInMinutes) }).FirstOrDefault();
+            int minutes = int.Parse(roundOptions.TickIntervalInMinutes);
+
+            return gatheringStore.GetQuery(false).Where(x => x.StrategyGameUserId == userId).Select(x => new GatheringProgressViewModel { resourceType = x.GatheringData.Type, TimeLeft = x.TicksLeft * minutes + minutes }).FirstOrDefault();
         }
 
         public async Task<IEnumerable<TradeViewModel>> QueryTradeActions(CancellationToken cancellationToken)
