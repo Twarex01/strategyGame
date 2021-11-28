@@ -76,8 +76,8 @@ function App() {
         <BodyWrapper>
           <Header />
           <Routes>
-            <Route exact path="/" element={<Landing />} />
-            <Route exact path="/login" element={<Login />} />
+            <Route exact path="/" element={auth ? <Navigate to="/auth/game/status" /> : <Landing />} />
+            <Route exact path="/login" element={auth ? <Navigate to="/auth/game/status" /> : <Login />} />
 
             <Route exact path="/auth/game/status" element={auth ? <Game /> : <Navigate to="/login" />} />
             <Route exact path="/auth/game/build" element={auth ? <BuildPage /> : <Navigate to="/login" />} />

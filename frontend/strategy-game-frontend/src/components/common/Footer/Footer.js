@@ -156,9 +156,9 @@ const Footer = (props) => {
         return (
             <Typography align="center">
                 {'Copyright © '}
-                <RouterLink className={classes.link} to="/">
+                <SectionA className={classes.link} target="_blank" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" rel="noreferrer">
                     SG
-                </RouterLink>{' '}
+                </SectionA>{' '}
                 {new Date().getFullYear()}
                 {'.'}
             </Typography>
