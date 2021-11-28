@@ -48,7 +48,7 @@ function App() {
             <Route exact path="/" element={<Landing />} />
             <Route exact path="/login" element={<Login />} />
 
-            <Route exact path="/auth/game" element={auth ? <Game /> : <Navigate to="/login" />} />
+            <Route exact path="/auth/game/status" element={auth ? <Game /> : <Navigate to="/login" />} />
             <Route exact path="/auth/game/build" element={auth ? <BuildPage /> : <Navigate to="/login" />} />
             <Route exact path="/auth/game/fight" element={auth ? <FightPage /> : <Navigate to="/login" />} />
             <Route exact path="/auth/toplist" element={auth ? <Toplist /> : <Navigate to="/login" />} />

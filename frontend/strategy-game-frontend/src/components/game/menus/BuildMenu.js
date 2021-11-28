@@ -13,7 +13,6 @@ const MenuWrapper = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding-bottom: 1rem;
 `
 
 const MobileTitleWrapper = styled.div`
@@ -30,6 +29,8 @@ const MobileTitleWrapper = styled.div`
 
 const TitleWrapper = styled.div`
     display: none;
+    background: #262729;
+    margin-bottom: 1rem;
 
     @media(min-width: 600px){
         display: flex;
@@ -44,7 +45,7 @@ const InfoWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-height: 50vh;
+    max-height: 60vh;
     overflow-y: auto;
     
     @media(min-width: 600px){
@@ -53,7 +54,6 @@ const InfoWrapper = styled.div`
         align-items: flex-start;
         justify-content: space-between;
         width: 100%;
-        max-height: 50vh;
         overflow-y: auto;
     }
 `
@@ -90,8 +90,8 @@ const ButtonsWrapper = styled.div`
     align-items: center;
     justify-content: center;
     width: 100%;
-    margin-top: 1rem;
-
+    padding: 1rem 0;
+    background: #262729;
 `
 
 const ActionButton = styled.div`

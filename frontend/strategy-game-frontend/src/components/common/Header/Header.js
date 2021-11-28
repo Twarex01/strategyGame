@@ -207,7 +207,7 @@ const Header = (props) => {
               </RouterLink>
               :
               <Typography variant="h4" className={classes.title}>
-                <RouterLink to="/" className={classes.title}>
+                <RouterLink to={auth? '/auth/game/status' : '/'} className={classes.title}>
                   {HeaderData.siteName}
                 </RouterLink>
               </Typography >

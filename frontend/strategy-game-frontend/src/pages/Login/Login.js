@@ -28,7 +28,7 @@ const FormWrapper = styled.div`
     border-radius: 22px;
     width 100%;
     padding: 2rem;
-    max-width: 500px;
+    max-width: 1000px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -133,7 +133,7 @@ const Login = () => {
                 .then(res => {
                     if (res.status === 200 && localStorage.getItem("token")) {
                         dispatch(login({ token: localStorage.getItem("token") }))
-                        navigate("/auth/game")
+                        navigate("/auth/game/status")
                     }
                 })
         },
@@ -156,7 +156,7 @@ const Login = () => {
                             required
                             fullWidth
                             id="email"
-                            label="Email cím"
+                            label="Email address"
                             name="email"
                             autoComplete="email"
                             autoFocus
@@ -171,7 +171,7 @@ const Login = () => {
                             required
                             fullWidth
                             name="password"
-                            label="Jelszó"
+                            label="Password"
                             type="password"
                             id="password"
                             autoComplete="current-password"
@@ -186,7 +186,7 @@ const Login = () => {
                             variant="contained"
                             className={classes.submit}
                         >
-                            Belépés
+                            Login
                         </Button>
                     </form>
                 </FieldsWrapper>

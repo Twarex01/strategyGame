@@ -1,14 +1,15 @@
 import styled from "styled-components"
 import { calcName } from "utils/SGUtils"
+import backgroundImage from 'assets/images/login-background.jpg'
 
 const ResultEntryWrapper = styled.div`
     display: flex;
     flex-direction: row;
-    margin: 1rem 0;
+    padding: 1rem 0;
     justify-content: space-around;
     align-items: center;
     border-bottom: 1px solid grey;
-
+    background-image: url(${backgroundImage});
 `
 
 const ResultRank = styled.p`
@@ -28,10 +29,6 @@ const ResultScore = styled.p`
 `
 
 const ResultEntry = (props) => {
-
-
-    
-
     return (
         <ResultEntryWrapper>
             <ResultRank>{props.rank + 1}.</ResultRank>

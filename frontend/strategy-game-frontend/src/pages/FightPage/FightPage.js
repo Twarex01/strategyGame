@@ -1,10 +1,9 @@
 import styled from "styled-components"
-import gameBackground from 'assets/images/game-background.jpg'
+import fightBackground from 'assets/images/fight-background.jpg'
 import Resource from "components/game/resource/Resource"
 import { useEffect, useState, useRef } from "react"
 import axios from "axios"
 import { errorToast, infoToast, warningToast } from "components/common/Toast/Toast"
-import textBackground from "assets/images/login-background.jpg"
 
 import BuildMenu from "components/game/menus/BuildMenu"
 import FightMenu from "components/game/menus/FightMenu"
@@ -27,13 +26,16 @@ const FightPageWrapper = styled.div`
 
 const InnerMenuWrapper = styled.div`
     margin: 2rem 0;
-    padding: 1rem 0 0 0;
     width: 100%;
-    max-width: 750px;
-    background-image: url(${gameBackground});
+    max-width: 1000px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-image: url(${fightBackground});
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    box-shadow: 11px 11px 11px rgba(0, 0, 0, 0.3);
 
     @media(min-width: 600px){
         
@@ -104,7 +106,7 @@ const FightPage = () => {
         <FightPageWrapper>
             <InnerMenuWrapper>
                 <FightMenu fetchData={fetchData} />
-                <Resources resources={resources}/>
+                <Resources resources={resources} />
             </InnerMenuWrapper>
         </FightPageWrapper>
     );

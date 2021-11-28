@@ -15,7 +15,6 @@ const MenuWrapper = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding-bottom: 1rem;
 `
 const MobileTitleWrapper = styled.div`
     display: flex;
@@ -23,6 +22,7 @@ const MobileTitleWrapper = styled.div`
     align-items: flex-start;
     justify-content: space-between;
     width: 100%;
+    background: #262729;
 
     @media(min-width: 600px){
         display: none;
@@ -31,6 +31,7 @@ const MobileTitleWrapper = styled.div`
 
 const TitleWrapper = styled.div`
     display: none;
+    background: #262729;
 
     @media(min-width: 600px){
         display: flex;
@@ -56,8 +57,6 @@ const InfoWrapper = styled.div`
         align-items: flex-start;
         justify-content: space-between;
         width: 100%;
-        max-height: 50vh;
-        overflow-y: auto;
     }
 
 `
@@ -93,7 +92,9 @@ const ButtonsWrapper = styled.div`
     align-items: center;
     justify-content: space-around;
     width: 100%;
-    margin-top: 1rem;
+    padding: 1rem;
+    background: #262729;
+
 `
 
 const ActionButton = styled.div`
@@ -286,6 +287,20 @@ const FightMenu = (props) => {
 
                     <ListWrapper>
 
+                        {
+                            gatheringOptions.map((gathering, idx) => {
+                                return (
+                                    <GatheringOption key={`gathering_available_${gathering.id}_${idx}`} idx={idx} setSelected={setSelected} selected={selected.idx === idx} gathering={gathering} />
+                                )
+                            })
+                        }
+                        {
+                            gatheringOptions.map((gathering, idx) => {
+                                return (
+                                    <GatheringOption key={`gathering_available_${gathering.id}_${idx}`} idx={idx} setSelected={setSelected} selected={selected.idx === idx} gathering={gathering} />
+                                )
+                            })
+                        }
                         {
                             gatheringOptions.map((gathering, idx) => {
                                 return (

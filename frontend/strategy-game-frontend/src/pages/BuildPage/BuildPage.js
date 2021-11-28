@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import gameBackground from 'assets/images/game-background.jpg'
+import buildBackground from 'assets/images/build-background.jpg'
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { errorToast } from "components/common/Toast/Toast"
@@ -21,16 +21,19 @@ const BuildPageWrapper = styled.div`
     @media(min-width: 600px){
         
     }`
-
+// https://wall.alphacoders.com/big.php?i=1061167
 const InnerMenuWrapper = styled.div`
     margin: 2rem 0;
-    padding: 1rem 0 0 0;
     width: 100%;
-    max-width: 750px;
-    background-image: url(${gameBackground});
+    max-width: 1000px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-image: url(${buildBackground}); 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    box-shadow: 11px 11px 11px rgba(0, 0, 0, 0.3);
 
     @media(min-width: 600px){
         

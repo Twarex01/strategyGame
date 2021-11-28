@@ -18,8 +18,8 @@ const HeaderData = {
     ],
     optionsAuth: [
         {
-            name: "Game",
-            to: "/auth/game",
+            name: "Status",
+            to: "/auth/game/status",
             onClick: (dispatch, setActive, idx) => {
                 dispatch(setActive(idx));
             },

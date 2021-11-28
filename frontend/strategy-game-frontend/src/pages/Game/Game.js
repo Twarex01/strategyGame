@@ -32,6 +32,9 @@ const SceneWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
     background-image: url(${gameBackground});
     height: 80vh;
     position: relative;
@@ -41,7 +44,7 @@ const SceneWrapper = styled.div`
 
 const ModalWrapper = styled.div`
     width: 100%;
-    max-width: 750px;
+    max-width: 1000px;
     z-index: 100;
     background-image: url(${textBackground});
     border-radius: 22px;

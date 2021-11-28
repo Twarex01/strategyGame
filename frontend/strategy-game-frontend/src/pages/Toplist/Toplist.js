@@ -6,26 +6,40 @@ import background from "assets/images/login-background.jpg"
 import { errorToast } from "components/common/Toast/Toast"
 
 const ToplistWrapper = styled.div`
-    padding: 2rem;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-`
+
+    @media(min-width: 600px){
+        
+    }`
 
 const ListWrapper = styled.div`
+    margin: 2rem 0;
     width: 100%;
-    max-width: 500px;
-    background-image: url(${background});
-    border-radius: 22px;
+    max-width: 1000px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 11px 11px 11px rgba(0, 0, 0, 0.3);
+    background: #262729;
+
+    @media(min-width: 600px){
+        
+    }
 `
 
 const TitleText = styled.h1`
     width: 100%;
     padding: 0 0 2rem 0;
     text-align: center;
-    border-bottom: 2px solid grey;
+    border-bottom: 2px solid white;
     height: 2rem;
+    color: grey;
 `
 
 const scoreComparer = (result1, result2) => {

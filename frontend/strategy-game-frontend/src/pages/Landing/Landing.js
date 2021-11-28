@@ -10,14 +10,14 @@ const LandingWrapper = styled.div`
 `
 const TitleWrapper = styled.div`
     widht: 100%;
-    max-width: 750px;
+    max-width: 1000px;
     text-align: center;
     margin: 2rem;
 
 `
 const DescriptionWrapper = styled.div`
     widht: 100%;
-    max-width: 500px;
+    max-width: 1000px;
     text-align: center;
 
 `

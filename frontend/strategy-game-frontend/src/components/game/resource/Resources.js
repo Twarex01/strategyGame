@@ -24,33 +24,6 @@ const ResourcesWrapper = styled.div`
     }
 `
 
-const BigButton = styled.div`
-    display: grid;
-    place-items: center;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    border: 1px solid black;
-    margin: 1rem 0;
-    transition: 0.2s linear;
-
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3),
-                inset 5px 5px 5px rgba(255, 255, 255, 0.6);
-
-    background: lightgrey;
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: black;
-
-    &:hover {
-        cursor: pointer;
-        background: grey;
-        color: #FEFEFE;
-        transition: 0.2s linear;
-    }
-`
-
-
 const ResourceTypeWrapper = styled.div`
     display: flex;
     flex-direction: column;
@@ -59,11 +32,11 @@ const ResourceTypeWrapper = styled.div`
 
 const ResourceType = styled.div`
     width: 100%;
-    height: 25px;
     background-image: url(${textBackground});
     color: white;
     font-weight: 600;
     font-size: 1.25rem;
+    line-height: 2rem;
     display: grid;
     place-items: center;
 `
@@ -73,15 +46,9 @@ const ResourceWrapper = styled.div`
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-end;
-    min-height: 25px;
-
 
     @media(min-width: 600px){
-        display: flex;
         flex-direction: row;
-        justify-content: space-between;
-        align-items: flex-end;
-        height: 25px;
     }
 
 `

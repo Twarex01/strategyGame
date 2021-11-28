@@ -10,7 +10,7 @@ import { useEffect, useState } from "react"
 
 const ResourceWrapper = styled.div`
     width: 75px;
-    height: 25px;
+    font-size: 1.25rem;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -25,17 +25,13 @@ const ResourceWrapper = styled.div`
 const ResourceIconWrapper = styled.div`
     display: grid;
     place-items: center;
-    height: 25px;
-    width: 25px;
 `
 
 const ResourceAmount = styled.p`
     color: white;
-    font-size: 1.25rem;
 `
 const ResourceName = styled.p`
     color: white;
-    font-size: 1.5rem;
 `
 
 const ResourceIcon = styled.img`
