@@ -13,7 +13,7 @@ const MenuWrapper = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    z-index: 1000;
+    padding-bottom: 1rem;
 `
 
 const MobileTitleWrapper = styled.div`
@@ -64,6 +64,11 @@ const LeftSide = styled.div`
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-around;
+    @media(min-width: 600px){
+        align-items: flex-end;
+        padding-left: 2rem;
+
+    }
 `
 
 const RightSide = styled.div`
@@ -72,6 +77,11 @@ const RightSide = styled.div`
     flex-direction: column;
     align-items: flex-end;
     justify-content: space-around;
+    @media(min-width: 600px){
+        align-items: flex-end;
+        padding-right: 2rem;
+
+    }
 `
 
 const ButtonsWrapper = styled.div`
@@ -168,9 +178,11 @@ const BuildMenu = (props) => {
     }, [])
 
     const [selected, setSelected] = useState(0)
+
     useEffect(() => {
         console.log(buildings[selected]?.id)
     }, [selected])
+
     const [postRes, setPostRes] = useState()
     const [postErr, setPostErr] = useState()
     const [postLoading, setPostLoading] = useState(false)
@@ -193,6 +205,7 @@ const BuildMenu = (props) => {
             setPostRes(res.data)
             if (res.status === 200) {
                 successToast("Building successful!")
+                fetchDataAvailable()
                 props.fetchData()
             }
             setPostLoading(false)
@@ -214,8 +227,8 @@ const BuildMenu = (props) => {
             </TitleWrapper>
             <InfoWrapper>
                 <LeftSide>
-                <MobileTitleWrapper>
-                <SideTitle>You currently have:</SideTitle>
+                    <MobileTitleWrapper>
+                        <SideTitle>You currently have:</SideTitle>
                     </MobileTitleWrapper>
                     <ListWrapper>
 
@@ -229,8 +242,8 @@ const BuildMenu = (props) => {
                     </ListWrapper>
                 </LeftSide>
                 <RightSide>
-                <MobileTitleWrapper>
-                <SideTitle>Select a building to build</SideTitle>
+                    <MobileTitleWrapper>
+                        <SideTitle>Select a building to build</SideTitle>
                     </MobileTitleWrapper>
                     <ListWrapper>
                         {
@@ -245,7 +258,7 @@ const BuildMenu = (props) => {
                 </RightSide>
             </InfoWrapper>
             <ButtonsWrapper>
-                <ActionButton onClick={() => { handlePost(); props.setModalOpen(false) }}>Build</ActionButton>
+                <ActionButton onClick={handlePost}>Build</ActionButton>
             </ButtonsWrapper>
         </MenuWrapper>
     )

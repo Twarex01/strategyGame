@@ -1,34 +1,15 @@
-import { Fragment, useEffect, useState } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
-import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
-import Divider from '@material-ui/core/Divider'
 import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
-import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
 import Typography from '@material-ui/core/Typography'
-import HeaderOption from './HeaderOption'
-import Collapse from "@material-ui/core/Collapse"
-
-import ExpandLess from "@material-ui/icons/ExpandLess"
-import ExpandMore from "@material-ui/icons/ExpandMore"
-
 import background from "assets/images/login-background.jpg"
-
-import { GoSignIn } from 'react-icons/go';
-
-
 import { Link as RouterLink } from 'react-router-dom'
-
 import HeaderData from './HeaderData'
-
 import { useSelector, useDispatch } from 'react-redux'
-
 import { logout } from 'redux/slices/HeaderSlice'
 
 const useStyles = makeStyles((theme) => ({

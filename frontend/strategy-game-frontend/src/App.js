@@ -59,7 +59,6 @@ function App() {
             limit={5}
             closeOnClick
             rtl={false}
-            pauseOnFocusLoss
             draggable
             pauseOnHover
           />

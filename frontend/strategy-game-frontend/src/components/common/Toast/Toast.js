@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 
 const toastStlye = {
     position: "bottom-right",
-    autoClose: 5000,
+    autoClose: 3000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,

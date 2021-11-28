@@ -15,7 +15,7 @@ const MenuWrapper = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    z-index: 1000;
+    padding-bottom: 1rem;
 `
 const MobileTitleWrapper = styled.div`
     display: flex;
@@ -70,6 +70,7 @@ const LeftSide = styled.div`
     justify-content: space-around;
     @media(min-width: 600px){
         align-items: flex-start;
+        padding-left: 2rem;
     }
 `
 
@@ -81,6 +82,8 @@ const RightSide = styled.div`
     justify-content: space-around;
     @media(min-width: 600px){
         align-items: flex-end;
+        padding-right: 2rem;
+
     }
 `
 
@@ -149,27 +152,6 @@ const FightMenu = (props) => {
     const token = useSelector(store => store.persistedReducers.headerSliceReducer.token)
 
 
-    const fetchData = async () => {
-        try {
-            setLoading(true)
-
-            const res = await axios.get(
-                'https://localhost:44365/api/resource/all',
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            )
-            setLoading(false)
-            setResources(res.data)
-        } catch (err) {
-            console.log(err)
-            setErr(err)
-            errorToast(err)
-        }
-    }
-
     const calcUnits = () => {
         resources.forEach(resource => {
             if (resource.type === 4) setUnits(resource.amount)
@@ -179,9 +161,6 @@ const FightMenu = (props) => {
     useEffect(() => {
         calcUnits()
     }, [resources])
-    useEffect(() => {
-        fetchData()
-    }, [])
 
     const [gatheringOptions, setGatheringOptions] = useState([])
     const [errOptions, setErrOptions] = useState()
@@ -209,7 +188,6 @@ const FightMenu = (props) => {
     }
 
     useEffect(() => {
-        fetchData()
         fetchDataOptions()
     }, [])
 
@@ -244,6 +222,7 @@ const FightMenu = (props) => {
             if (res.status === 200) {
                 successToast("Operation successful!")
                 props.fetchData()
+                fetchDataOptions()
             }
             setPostGatherLoading(false)
             setPostGatherRes(res.data)
@@ -278,6 +257,7 @@ const FightMenu = (props) => {
             if (res.status === 200) {
                 successToast("Operation successful!")
                 props.fetchData()
+                fetchDataOptions()
             }
             setPostFightLoading(false)
             setPostFightRes(res.data)
@@ -324,7 +304,6 @@ const FightMenu = (props) => {
                     <CustomSlider
                         aria-label="Time"
                         defaultValue={1}
-                        valueLabelDisplay="auto"
                         step={1}
                         min={1}
                         valueLabelDisplay="on"
@@ -336,8 +315,8 @@ const FightMenu = (props) => {
             </InfoWrapper>
             <InfoWrapper>
                 <ButtonsWrapper>
-                    <ActionButton onClick={() => { handlePostGather(); props.setModalOpen(false) }}>Gather</ActionButton>
-                    <ActionButton onClick={() => { handlePostFight(); props.setModalOpen(false) }}>Fight</ActionButton>
+                    <ActionButton onClick={handlePostGather}>Gather</ActionButton>
+                    <ActionButton onClick={handlePostFight}>Fight</ActionButton>
                 </ButtonsWrapper>
             </InfoWrapper>
         </MenuWrapper>

@@ -1,18 +1,15 @@
 import styled from "styled-components"
 import gameBackground from 'assets/images/game-background.jpg'
-import Resource from "components/game/resource/Resource"
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState } from "react"
 import axios from "axios"
-import { errorToast, infoToast, warningToast } from "components/common/Toast/Toast"
-import textBackground from "assets/images/login-background.jpg"
+import { errorToast } from "components/common/Toast/Toast"
 
 import BuildMenu from "components/game/menus/BuildMenu"
-import FightMenu from "components/game/menus/FightMenu"
 
 import { HubConnectionBuilder } from '@microsoft/signalr'
 import { useSelector } from "react-redux"
+import Resources from "components/game/resource/Resources"
 
-import { useNavigate } from "react-router"
 
 
 const BuildPageWrapper = styled.div`
@@ -27,10 +24,13 @@ const BuildPageWrapper = styled.div`
 
 const InnerMenuWrapper = styled.div`
     margin: 2rem 0;
-    padding: 1rem 0;
+    padding: 1rem 0 0 0;
     width: 100%;
     max-width: 750px;
     background-image: url(${gameBackground});
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     @media(min-width: 600px){
         
@@ -74,40 +74,28 @@ const BuildPage = () => {
         }
     }, [])
 
-    const [connection, setConnection] = useState(null);
-
     useEffect(() => {
-        const newConnection = new HubConnectionBuilder()
+        const connection = new HubConnectionBuilder()
             .withUrl('https://localhost:44365/roundhub')
             .withAutomaticReconnect()
             .build();
-        setConnection(newConnection);
-        return () => {
-            setConnection(null)
-        }
-    }, []);
 
-    useEffect(() => {
-        console.log(connection)
-        if (connection) {
-            connection.start()
-                .then(result => {
-                    console.log('Connected!');
-                })
-                .catch(e => console.log('Connection failed: ', e));
-            connection.on('TurnEnded', null);
-            connection.on('TurnEnded', () => {
-                console.log("Turn Ended")
-                fetchData()
-                infoToast("A turn has ended!")
-            });
-        }
+        connection.start()
+            .then(result => {
+                console.log('Connected!');
+
+                connection.on('TurnEnded', message => {
+                    console.log("Turn Ended")
+                    fetchData()
+                });
+            })
+            .catch(e => console.log('Connection failed: ', e));
         return () => {
             if (connection) {
                 connection.on('TurnEnded', null)
             }
         }
-    }, [connection]);
+    }, []);
 
 
 
@@ -144,7 +132,8 @@ const BuildPage = () => {
     return (
         <BuildPageWrapper>
             <InnerMenuWrapper>
-                <BuildMenu fetchData={fetchData} setModalOpen={setModalOpen} />
+                <BuildMenu fetchData={fetchData}/>
+                <Resources resources={resources}/>
             </InnerMenuWrapper>
         </BuildPageWrapper>
     );
