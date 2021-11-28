@@ -123,7 +123,7 @@ const Resource = (props) => {
 
     useEffect(() => {
         calcRes()
-    }, [])
+    }, [props])
 
     const [visible, setVisible] = useState(false)
 

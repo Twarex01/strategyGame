@@ -19,6 +19,8 @@ import NotFound from './pages/NotFound/NotFound'
 
 import Toplist from './pages/Toplist/Toplist'
 import Game from './pages/Game/Game'
+import BuildPage from 'pages/BuildPage/BuildPage'
+import FightPage from 'pages/FightPage/FightPage'
 
 const BodyWrapper = styled.div`
     min-height: 100vh;
@@ -43,6 +45,8 @@ function App() {
             <Route exact path="/login" element={<Login />} />
 
             <Route exact path="/auth/game" element={<Game />} />
+            <Route exact path="/auth/game/build" element={<BuildPage />} />
+            <Route exact path="/auth/game/fight" element={<FightPage />} />
             <Route exact path="/auth/toplist" element={<Toplist />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -6,6 +6,8 @@ import BuildingOption from 'components/game/menus/BuildingOption'
 import BuildingAvailable from "./BuildingAvailable"
 import { errorToast, successToast } from "components/common/Toast/Toast"
 
+import { useSelector } from "react-redux"
+
 const MenuWrapper = styled.div`
     display: flex;
     flex-direction: column;
@@ -14,13 +16,46 @@ const MenuWrapper = styled.div`
     z-index: 1000;
 `
 
-const InfoWrapper = styled.div`
+const MobileTitleWrapper = styled.div`
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
     width: 100%;
-    padding: 2rem;
+
+    @media(min-width: 600px){
+        display: none;
+    }
+`
+
+const TitleWrapper = styled.div`
+    display: none;
+
+    @media(min-width: 600px){
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+        width: 100%;
+    }
+`
+const InfoWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-height: 50vh;
+    overflow-y: auto;
+    
+    @media(min-width: 600px){
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+        width: 100%;
+        max-height: 50vh;
+        overflow-y: auto;
+    }
 `
 
 const LeftSide = styled.div`
@@ -41,10 +76,12 @@ const RightSide = styled.div`
 
 const ButtonsWrapper = styled.div`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
     width: 100%;
+    margin-top: 1rem;
+
 `
 
 const ActionButton = styled.div`
@@ -70,23 +107,17 @@ const SideTitle = styled.p`
     color: darkgrey;
 `
 
-const ListItem = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    width: 100%;
-`
-
 const BuildMenu = (props) => {
 
     const [buildings, setBuildings] = useState([])
     const [err, setErr] = useState()
     const [loading, setLoading] = useState(false)
 
+    const token = useSelector(store => store.persistedReducers.headerSliceReducer.token)
+
     const fetchData = async () => {
         try {
             setLoading(true)
-            let token = localStorage.getItem("token")
 
             const res = await axios.get(
                 'https://localhost:44365/api/command/build/actions',
@@ -113,7 +144,6 @@ const BuildMenu = (props) => {
     const fetchDataAvailable = async () => {
         try {
             setLoadingAvailable(true)
-            let token = localStorage.getItem("token")
 
             const res = await axios.get(
                 'https://localhost:44365/api/building/all',
@@ -148,7 +178,6 @@ const BuildMenu = (props) => {
     const handlePost = async () => {
         try {
             setPostLoading(true)
-            let token = localStorage.getItem("token")
 
             const res = await axios.post(
                 'https://localhost:44365/api/command/build',
@@ -161,12 +190,12 @@ const BuildMenu = (props) => {
                     }
                 }
             )
-            setPostLoading(false)
             setPostRes(res.data)
-            console.log(res)
             if (res.status === 200) {
-                successToast("Operation successful!")
+                successToast("Building successful!")
+                props.fetchData()
             }
+            setPostLoading(false)
         } catch (err) {
             setPostErr(err)
             errorToast(err)
@@ -175,10 +204,19 @@ const BuildMenu = (props) => {
 
     return (
         <MenuWrapper>
-            <InfoWrapper>
+            <TitleWrapper>
                 <LeftSide>
                     <SideTitle>You currently have:</SideTitle>
-
+                </LeftSide>
+                <RightSide>
+                    <SideTitle>Select a building to build</SideTitle>
+                </RightSide>
+            </TitleWrapper>
+            <InfoWrapper>
+                <LeftSide>
+                <MobileTitleWrapper>
+                <SideTitle>You currently have:</SideTitle>
+                    </MobileTitleWrapper>
                     <ListWrapper>
 
                         {
@@ -191,8 +229,9 @@ const BuildMenu = (props) => {
                     </ListWrapper>
                 </LeftSide>
                 <RightSide>
-                    <SideTitle>Select a building to build</SideTitle>
-
+                <MobileTitleWrapper>
+                <SideTitle>Select a building to build</SideTitle>
+                    </MobileTitleWrapper>
                     <ListWrapper>
                         {
                             buildings.map((building, idx) => {
@@ -206,8 +245,7 @@ const BuildMenu = (props) => {
                 </RightSide>
             </InfoWrapper>
             <ButtonsWrapper>
-                <ActionButton onClick={() => props.setModalOpen(false)}>Cancel</ActionButton>
-                <ActionButton onClick={handlePost}>Build</ActionButton>
+                <ActionButton onClick={() => { handlePost(); props.setModalOpen(false) }}>Build</ActionButton>
             </ButtonsWrapper>
         </MenuWrapper>
     )

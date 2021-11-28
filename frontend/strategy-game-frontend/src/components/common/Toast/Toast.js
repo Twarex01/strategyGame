@@ -30,9 +30,12 @@ const successToast = (message) => {
 const errorToast = (errorMsg) => {
     toast.error(`Error: ${errorMsg}`, toastStlye);
 }
-
-const warningToast = (warningMsg) => {
-    toast.error(`Error: ${warningMsg}`, toastStlye);
+const infoToast = (errorMsg) => {
+    toast.info(`${errorMsg}`, toastStlye);
 }
 
-export { successToast, errorToast, warningToast, progressToast }
+const warningToast = (warningMsg) => {
+    toast.warning(`${warningMsg}`, toastStlye);
+}
+
+export { successToast, errorToast, warningToast, progressToast, infoToast }

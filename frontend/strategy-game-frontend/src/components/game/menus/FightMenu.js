@@ -7,43 +7,90 @@ import Slider from '@mui/material/Slider';
 import { withStyles } from '@material-ui/core/styles';
 import { errorToast, successToast } from "components/common/Toast/Toast"
 
+import { useSelector } from "react-redux"
+
+
 const MenuWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: flex-start;
+    align-items: center;
+    z-index: 1000;
 `
-
-const InfoWrapper = styled.div`
+const MobileTitleWrapper = styled.div`
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
     width: 100%;
-    padding: 2rem;
+
+    @media(min-width: 600px){
+        display: none;
+    }
+`
+
+const TitleWrapper = styled.div`
+    display: none;
+
+    @media(min-width: 600px){
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+        width: 100%;
+    }
+`
+
+
+const InfoWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-height: 50vh;
+    overflow-y: auto;
+
+    @media(min-width: 600px){
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+        width: 100%;
+        max-height: 50vh;
+        overflow-y: auto;
+    }
+
 `
 
 const LeftSide = styled.div`
     padding-left: 1rem;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-around;
+    @media(min-width: 600px){
+        align-items: flex-start;
+    }
 `
 
 const RightSide = styled.div`
     padding-right: 1rem;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    align-items: center;
+    justify-content: space-around;
+    @media(min-width: 600px){
+        align-items: flex-end;
+    }
 `
 
 const ButtonsWrapper = styled.div`
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     width: 100%;
+    margin-top: 1rem;
 `
 
 const ActionButton = styled.div`
@@ -73,13 +120,6 @@ const BattleText = styled.p`
     color: lightgrey;
 `
 
-const ListItem = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    width: 100%;
-`
-
 const CustomSlider = withStyles({
     root: {
         height: 3,
@@ -106,10 +146,12 @@ const FightMenu = (props) => {
     const [err, setErr] = useState()
     const [loading, setLoading] = useState(false)
 
+    const token = useSelector(store => store.persistedReducers.headerSliceReducer.token)
+
+
     const fetchData = async () => {
         try {
             setLoading(true)
-            let token = localStorage.getItem("token")
 
             const res = await axios.get(
                 'https://localhost:44365/api/resource/all',
@@ -148,7 +190,6 @@ const FightMenu = (props) => {
     const fetchDataOptions = async () => {
         try {
             setLoadingOptions(true)
-            let token = localStorage.getItem("token")
 
             const res = await axios.get(
                 'https://localhost:44365/api/command/gather/actions',
@@ -186,7 +227,6 @@ const FightMenu = (props) => {
     const handlePostGather = async () => {
         try {
             setPostGatherLoading(true)
-            let token = localStorage.getItem("token")
             let body = {
                 gatherId: `${gatheringOptions[selected.idx].id}`,
                 time: `${selected.amount}`,
@@ -203,6 +243,7 @@ const FightMenu = (props) => {
             )
             if (res.status === 200) {
                 successToast("Operation successful!")
+                props.fetchData()
             }
             setPostGatherLoading(false)
             setPostGatherRes(res.data)
@@ -222,7 +263,6 @@ const FightMenu = (props) => {
     const handlePostFight = async () => {
         try {
             setPostFightLoading(true)
-            let token = localStorage.getItem("token")
 
             const res = await axios.post(
                 'https://localhost:44365/api/command/attack',
@@ -237,6 +277,7 @@ const FightMenu = (props) => {
             )
             if (res.status === 200) {
                 successToast("Operation successful!")
+                props.fetchData()
             }
             setPostFightLoading(false)
             setPostFightRes(res.data)
@@ -249,9 +290,20 @@ const FightMenu = (props) => {
 
     return (
         <MenuWrapper>
-            <InfoWrapper>
+            <TitleWrapper>
                 <LeftSide>
                     <SideTitle>Gathering options</SideTitle>
+                </LeftSide>
+                <RightSide>
+                    <SideTitle>Send your army to battle!</SideTitle>
+                </RightSide>
+            </TitleWrapper>
+            <InfoWrapper>
+                <LeftSide>
+                    <MobileTitleWrapper>
+                        <SideTitle>Gathering options</SideTitle>
+                    </MobileTitleWrapper>
+
                     <ListWrapper>
 
                         {
@@ -265,7 +317,9 @@ const FightMenu = (props) => {
 
                 </LeftSide>
                 <RightSide>
-                    <SideTitle>Send your army to battle!</SideTitle>
+                    <MobileTitleWrapper>
+                        <SideTitle>Send your army to battle!</SideTitle>
+                    </MobileTitleWrapper>
 
                     <CustomSlider
                         aria-label="Time"
@@ -282,15 +336,10 @@ const FightMenu = (props) => {
             </InfoWrapper>
             <InfoWrapper>
                 <ButtonsWrapper>
-                    <ActionButton onClick={handlePostGather}>Gather</ActionButton>
-                </ButtonsWrapper>
-                <ButtonsWrapper>
-                    <ActionButton onClick={handlePostFight}>Fight</ActionButton>
+                    <ActionButton onClick={() => { handlePostGather(); props.setModalOpen(false) }}>Gather</ActionButton>
+                    <ActionButton onClick={() => { handlePostFight(); props.setModalOpen(false) }}>Fight</ActionButton>
                 </ButtonsWrapper>
             </InfoWrapper>
-            <ButtonsWrapper>
-                <ActionButton onClick={() => props.setModalOpen(false)}>Cancel</ActionButton>
-            </ButtonsWrapper>
         </MenuWrapper>
     )
 }

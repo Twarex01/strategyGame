@@ -8,7 +8,13 @@ const nonPersistedReducers = combineReducers({
     headerSliceReducer
 }) // NON persisted, such as API calls (making them persistent causes bugs)
 
-const combinedReducers = combineReducers({nonPersistedReducers}) // The "final" combined reducer, containing all our reducers
+const persistConfig = {
+    key: 'root',
+    storage
+};
+const persistedReducers = persistReducer(persistConfig, nonPersistedReducers); // Persisted
+
+const combinedReducers = combineReducers({persistedReducers}) // The "final" combined reducer, containing all our reducers
 
 const store = configureStore({
     reducer: combinedReducers,

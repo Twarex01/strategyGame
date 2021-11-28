@@ -171,16 +171,15 @@ const Header = (props) => {
 
   const dispatch = useDispatch()
 
-  const auth = useSelector(store => store.nonPersistedReducers.headerSliceReducer.auth)
+  const auth = useSelector(store => store.persistedReducers.headerSliceReducer.auth)
 
   const handleLogout = () => {
     localStorage.removeItem("token")
     dispatch(logout())
   }
-  //const auth = useSelector((state) => state.persistedReducers.authSliceReducer.isLoggedIn)
-  const curActive = useSelector(state => state.nonPersistedReducers.headerSliceReducer.active)
+  const curActive = useSelector(state => state.persistedReducers.headerSliceReducer.active)
 
-  const calcOptionsAuth = () => (
+  const calcOptionsAuth = (
     <List
       component="nav"
       className={classes.bigList}
@@ -198,7 +197,7 @@ const Header = (props) => {
   )
 
 
-  const calcOptions = () => (
+  const calcOptions = (
     <List
       component="nav"
       className={classes.bigList}
@@ -214,12 +213,6 @@ const Header = (props) => {
       </ListItem>
     </List>
   )
-
-  const [options, setOptions] = useState()
-
-  useEffect(() => {
-    auth ? setOptions(calcOptionsAuth()) : setOptions(calcOptions())
-  }, [auth])
 
   return (
     <div className={classes.root}>
@@ -239,8 +232,7 @@ const Header = (props) => {
               </Typography >
           }
           <div className={classes.bigMenu}>
-            {options}
-
+            {auth ? calcOptionsAuth : calcOptions}
           </div>
         </Toolbar>
       </AppBar>

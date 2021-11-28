@@ -14,122 +14,29 @@ import { useSelector } from "react-redux"
 
 import { useNavigate } from "react-router"
 
-
-const GameWrapper = styled.div`
+const FightPageWrapper = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
-`
 
-const SceneWrapper = styled.div`
-    margin: 2rem;
-    width: 100%;
-    max-width: 1000px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    background-image: url(${gameBackground});
-    height: 80vh;
-    position: relative;
-    box-shadow: 11px 11px 11px rgba(0, 0, 0, 0.3);
+    @media(min-width: 600px){
+        
+    }`
 
-`
-
-const ModalWrapper = styled.div`
+const InnerMenuWrapper = styled.div`
+    margin: 2rem 0;
+    padding: 1rem 0;
     width: 100%;
     max-width: 750px;
-    z-index: 100;
-    background-image: url(${textBackground});
-    border-radius: 22px;
-    box-shadow: 22px 22px 22px rgba(0, 0, 0, 0.6);
-    padding: 1rem;
-    margin: 0 auto;
-`
-
-const ButtonsWrapper = styled.div`
-    background: #262729;
-    
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
+    background-image: url(${gameBackground});
 
     @media(min-width: 600px){
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: flex-end;
+        
     }
 `
 
-const BigButton = styled.div`
-    display: grid;
-    place-items: center;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    border: 1px solid black;
-    margin: 1rem 0;
-    transition: 0.2s linear;
-
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3),
-                inset 5px 5px 5px rgba(255, 255, 255, 0.6);
-
-    background: lightgrey;
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: black;
-
-    &:hover {
-        cursor: pointer;
-        background: grey;
-        color: #FEFEFE;
-        transition: 0.2s linear;
-    }
-`
-
-
-const ResourceTypeWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`
-
-const ResourceType = styled.div`
-    width: 100%;
-    height: 25px;
-    background-image: url(${textBackground});
-    color: white;
-    font-weight: 600;
-    font-size: 1.25rem;
-    display: grid;
-    place-items: center;
-`
-
-const ResourceWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-end;
-    min-height: 25px;
-
-
-    @media(min-width: 600px){
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: flex-end;
-        height: 25px;
-    }
-
-`
-
-const Game = () => {
+const FightPage = () => {
 
     const [resources, setResources] = useState([])
     const [resErr, setResErr] = useState()
@@ -248,48 +155,12 @@ const Game = () => {
     }
 
     return (
-        <GameWrapper>
-            {modalOpen &&
-                <ModalWrapper >
-                    {modalContent}
-                </ModalWrapper>
-            }
-            <SceneWrapper>
-                <ButtonsWrapper>
-                    <ResourceTypeWrapper>
-                        <ResourceType>
-                            Resources
-                        </ResourceType>
-                        <ResourceWrapper>
-                            {
-                                buildingRes.map((resource, idx) => {
-                                    return (
-                                        <Resource key={`building_res_${resource.id}_${idx}`} type={resource.type} amount={resource.amount} />
-                                    )
-                                })
-                            }
-                        </ResourceWrapper>
-
-                    </ResourceTypeWrapper>
-                    <ResourceTypeWrapper>
-                        <ResourceType>
-                            Army
-                        </ResourceType>
-                        <ResourceWrapper>
-                            {
-                                armyRes.map((unitType, idx) => {
-                                    return (
-                                        <Resource key={`army_res_${unitType.id}_${idx}`} type={unitType.type} amount={unitType.amount} />
-                                    )
-                                })
-                            }
-                        </ResourceWrapper>
-                    </ResourceTypeWrapper>
-                </ButtonsWrapper>
-            </SceneWrapper>
-
-        </GameWrapper>
+        <FightPageWrapper>
+            <InnerMenuWrapper>
+                <FightMenu fetchData={fetchData} setModalOpen={setModalOpen} />
+            </InnerMenuWrapper>
+        </FightPageWrapper>
     );
 }
 
-export default Game
+export default FightPage

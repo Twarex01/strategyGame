@@ -132,7 +132,7 @@ const Login = () => {
             await handleLogin(values)
                 .then(res => {
                     if (res.status === 200 && localStorage.getItem("token")) {
-                        dispatch(login())
+                        dispatch(login({ token: localStorage.getItem("token") }))
                         navigate("/auth/game")
                     }
                 })
