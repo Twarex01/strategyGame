@@ -222,6 +222,8 @@ namespace StrategyGame.Application.Services
         public async Task TickRound(CancellationToken cancellationToken = default)
         {
 
+            await hubContext.Clients.All.Tick();
+
             await TickBattles(cancellationToken);
             await TickGathering(cancellationToken);
 

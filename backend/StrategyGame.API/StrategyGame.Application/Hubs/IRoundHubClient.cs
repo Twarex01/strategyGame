@@ -11,6 +11,7 @@ namespace StrategyGame.Application.Hubs
     public interface IRoundHubClient
     {
         public Task TurnEnded();
+        public Task Tick();
         public Task AttackEnded(BattleDoneDto battleDone);
         public Task DefenseEnded(BattleDoneDto battleDone);
         public Task GatherDone();
