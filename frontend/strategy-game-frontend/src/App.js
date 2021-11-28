@@ -3,6 +3,7 @@ import {
   Routes,
   Route,
 } from 'react-router-dom'
+import { Navigate } from "react-router-dom"
 import styled from 'styled-components'
 
 import { ThemeProvider } from '@material-ui/styles'
@@ -21,6 +22,7 @@ import Toplist from './pages/Toplist/Toplist'
 import Game from './pages/Game/Game'
 import BuildPage from 'pages/BuildPage/BuildPage'
 import FightPage from 'pages/FightPage/FightPage'
+import { useSelector } from 'react-redux'
 
 const BodyWrapper = styled.div`
     min-height: 100vh;
@@ -35,6 +37,8 @@ const FooterWrapper = styled.div`
 
 function App() {
 
+  const auth = useSelector(store => store.persistedReducers.headerSliceReducer.auth)
+
   return (
     <ThemeProvider theme={MainTheme}>
       <Router>
@@ -44,10 +48,10 @@ function App() {
             <Route exact path="/" element={<Landing />} />
             <Route exact path="/login" element={<Login />} />
 
-            <Route exact path="/auth/game" element={<Game />} />
-            <Route exact path="/auth/game/build" element={<BuildPage />} />
-            <Route exact path="/auth/game/fight" element={<FightPage />} />
-            <Route exact path="/auth/toplist" element={<Toplist />} />
+            <Route exact path="/auth/game" element={auth ? <Game /> : <Navigate to="/login" />} />
+            <Route exact path="/auth/game/build" element={auth ? <BuildPage /> : <Navigate to="/login" />} />
+            <Route exact path="/auth/game/fight" element={auth ? <FightPage /> : <Navigate to="/login" />} />
+            <Route exact path="/auth/toplist" element={auth ? <Toplist /> : <Navigate to="/login" />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
 
