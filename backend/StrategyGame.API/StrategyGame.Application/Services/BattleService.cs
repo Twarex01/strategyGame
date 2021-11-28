@@ -25,17 +25,20 @@ namespace StrategyGame.Application.Services
         private readonly IEntityStore<Battle> battleStore;
         private readonly IClaimService claimService;
 
+        private readonly RoundOptions roundOptions;
         private readonly BattleOptions battleOptions;
 
         public BattleService(IEntityStore<StrategyGameUser> strategyGameUserStore,
                              IEntityStore<Battle> battleStore,
                              IClaimService claimService,
-                             IOptionsSnapshot<BattleOptions> battleOptionsSnapshot)
+                             IOptionsSnapshot<BattleOptions> battleOptionsSnapshot,
+                             IOptionsSnapshot<RoundOptions> roundOptionsSnapshot)
         {
             this.strategyGameUserStore = strategyGameUserStore;
             this.battleStore = battleStore;
             this.claimService = claimService;
             this.battleOptions = battleOptionsSnapshot.Value;
+            this.roundOptions = roundOptionsSnapshot.Value;
         }
 
         public async Task LaunchAttack(AttackActionDto attackActionDto, CancellationToken cancellationToken)
@@ -77,7 +80,7 @@ namespace StrategyGame.Application.Services
             var userId = claimService.GetUserId();
 
             //TODO config
-            return battleStore.GetQuery(false).Where(x => x.AtkPlayerId == userId).Select(x => new BattleInProgressViewModel { AtkPower = x.AtkPower, TimeLeft = x.TicksLeft * 5 });
+            return battleStore.GetQuery(false).Where(x => x.AtkPlayerId == userId).Select(x => new BattleInProgressViewModel { AtkPower = x.AtkPower, TimeLeft = x.TicksLeft * int.Parse(roundOptions.TickIntervalInMinutes) });
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using StrategyGame.Application.Dtos;
 using StrategyGame.Application.Hubs;
 using StrategyGame.Application.Options;
 using StrategyGame.Application.ServiceInterfaces;
@@ -129,8 +130,8 @@ namespace StrategyGame.Application.Services
                         battleStore.Remove(battle);
 
                         //TODO: set claim
-                        await hubContext.Clients.All.AttackEnded(attackSuccesful, atkUnitsLost);
-                        await hubContext.Clients.All.DefenseEnded(!attackSuccesful, defUnitsLost);
+                        await hubContext.Clients.All.AttackEnded(new BattleDoneDto { Success = attackSuccesful, UnitsLost = atkUnitsLost });
+                        await hubContext.Clients.All.DefenseEnded(new BattleDoneDto { Success = !attackSuccesful, UnitsLost = defUnitsLost });
                     }
                     else
                     {

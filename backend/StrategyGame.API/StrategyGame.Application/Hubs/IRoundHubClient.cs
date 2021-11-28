@@ -1,4 +1,5 @@
-﻿using StrategyGame.Application.ViewModels;
+﻿using StrategyGame.Application.Dtos;
+using StrategyGame.Application.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,8 @@ namespace StrategyGame.Application.Hubs
     public interface IRoundHubClient
     {
         public Task TurnEnded();
-        public Task AttackEnded(bool attackSuccesful, int unitsLost);
-        public Task DefenseEnded(bool defenseSuccesful, int unitsLost);
+        public Task AttackEnded(BattleDoneDto battleDone);
+        public Task DefenseEnded(BattleDoneDto battleDone);
         public Task GatherDone();
     }
 }
