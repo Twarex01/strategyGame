@@ -27,24 +27,9 @@ import { Link as RouterLink } from 'react-router-dom'
 
 import HeaderData from './HeaderData'
 
-import Badge from '@material-ui/core/Badge'
-import { withStyles } from '@material-ui/core/styles'
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
-
 import { useSelector, useDispatch } from 'react-redux'
 
 import { logout } from 'redux/slices/HeaderSlice'
-
-const StyledBadge = withStyles((theme) => ({
-  badge: {
-    right: -3,
-    top: 13,
-    border: `2px solid ${theme.palette.primary.dark}`,
-    padding: '0 4px',
-    backgroundColor: theme.palette.primary.contrastText,
-    color: theme.palette.primary.dark,
-  },
-}))(Badge);
 
 const useStyles = makeStyles((theme) => ({
   appbar: {
@@ -195,12 +180,6 @@ const Header = (props) => {
   //const auth = useSelector((state) => state.persistedReducers.authSliceReducer.isLoggedIn)
   const curActive = useSelector(state => state.nonPersistedReducers.headerSliceReducer.active)
 
-  // Temporary drawer
-  const isAuthenticated = () => {
-    if (localStorage.getItem("token")) return true
-    return false
-  }
-
   const calcOptionsAuth = () => (
     <List
       component="nav"
@@ -212,7 +191,7 @@ const Header = (props) => {
         </ListItem>
       ))}
       <ListItem disabled={false} onClick={handleLogout} className={classes.listItem} component={RouterLink} to={"/"} key={`header_big_option_logout`} >
-        <ListItemText classes={{ primary: classes.bigListItemText }} primary={"Kijelentkezés"} />
+        <ListItemText classes={{ primary: classes.bigListItemText }} primary={"Logout"} />
       </ListItem>
 
     </List>
@@ -231,7 +210,7 @@ const Header = (props) => {
       ))}
 
       <ListItem disabled={false} className={classes.listItem} component={RouterLink} to={"/login"} key={`header_big_option_login`} >
-        <ListItemText classes={{ primary: classes.bigListItemText }} primary={"Bejelentkezés"} />
+        <ListItemText classes={{ primary: classes.bigListItemText }} primary={"Login"} />
       </ListItem>
     </List>
   )

@@ -109,11 +109,8 @@ const Login = () => {
             setStatus(res.status)
             if (res.status === 200) {
                 setResponse(true)
-                localStorage.setItem("token", res.data)
+                localStorage.setItem("token", res.data.token)
                 successToast("Operation successful!")
-
-            } else {
-                errorToast("Error :" + res.status)
             }
             return res
         } catch (err) {
@@ -136,7 +133,7 @@ const Login = () => {
                 .then(res => {
                     if (res.status === 200 && localStorage.getItem("token")) {
                         dispatch(login())
-                        navigate("/game/home")
+                        navigate("/auth/game")
                     }
                 })
         },
@@ -148,7 +145,7 @@ const Login = () => {
             <FormWrapper>
                 <TitleWrapper>
                     <Typography component="h1" variant="h5" className={classes.text}>
-                        Bejelentkezés
+                        Login
                     </Typography>
                 </TitleWrapper>
                 <FieldsWrapper>

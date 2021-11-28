@@ -6,7 +6,7 @@ const HeaderData = {
     siteName: "SG",
     options: [
         {
-            name: "Főoldal",
+            name: "Home",
             to: "/",
             icon: <HomeIcon />,
             onClick: (dispatch, setActive, idx) => {
@@ -18,7 +18,7 @@ const HeaderData = {
     ],
     optionsAuth: [
         {
-            name: "Játék",
+            name: "Game",
             to: "/auth/game",
             icon: <HomeIcon />,
             onClick: (dispatch, setActive, idx) => {
@@ -28,7 +28,7 @@ const HeaderData = {
             disabled: false,
         },
         {
-            name: "Ranglista",
+            name: "Toplist",
             to: "/auth/toplist",
             icon: <HomeIcon />,
             onClick: (dispatch, setActive, idx) => {

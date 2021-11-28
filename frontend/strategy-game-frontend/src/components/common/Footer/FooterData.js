@@ -9,7 +9,7 @@ const FooterData = {
                 {
                     name: "Laki Balázs",
                     icon: <FaUserAlt />,
-                    to: "about-me",
+                    to: "#",
                 },
                 {
                     name: "Tóth Bence",
