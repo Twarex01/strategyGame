@@ -22,7 +22,14 @@ import Toplist from './pages/Toplist/Toplist'
 import Game from './pages/Game/Game'
 import BuildPage from 'pages/BuildPage/BuildPage'
 import FightPage from 'pages/FightPage/FightPage'
-import { useSelector } from 'react-redux'
+import ConquerPage from 'pages/ConquerPage/ConquerPage'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import Connection from 'signalr/Signalr'
+import { infoToast } from 'components/common/Toast/Toast'
+import { getAll as getAllResources } from 'redux/slices/ResourceSlice'
+import { getAllFights } from 'redux/slices/FightSlice'
+import { getAllGathering } from 'redux/slices/GatheringSlice'
 
 const BodyWrapper = styled.div`
     min-height: 100vh;
@@ -36,6 +43,30 @@ const FooterWrapper = styled.div`
 `
 
 function App() {
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    Connection.on('TurnEnded', turnEnded => {
+      infoToast("A turn has ended!")
+      dispatch(getAllResources())
+    });
+    Connection.on('AttackEnded', attackEnded => {
+      infoToast(`${attackEnded.unitsLost} units lost...`)
+      infoToast(`Attack ${attackEnded.success ? "successful" : "failed"}!`)
+    });
+    Connection.on('DefenseEnded', defenseEnded => {
+      infoToast(`${defenseEnded.unitsLost} units lost...`)
+      infoToast(`Defense ${defenseEnded.success ? "successful" : "failed"}!`)
+    });
+    Connection.on('GatherDone', gatherDone => {
+      infoToast("Gathering done!")
+    });
+    Connection.on('Tick', tickmsg => {
+      dispatch(getAllGathering())
+      dispatch(getAllFights())
+    });
+  }, [])
 
   const auth = useSelector(store => store.persistedReducers.headerSliceReducer.auth)
 
@@ -51,13 +82,14 @@ function App() {
             <Route exact path="/auth/game/status" element={auth ? <Game /> : <Navigate to="/login" />} />
             <Route exact path="/auth/game/build" element={auth ? <BuildPage /> : <Navigate to="/login" />} />
             <Route exact path="/auth/game/fight" element={auth ? <FightPage /> : <Navigate to="/login" />} />
+            <Route exact path="/auth/game/conquer" element={auth ? <ConquerPage /> : <Navigate to="/login" />} />
             <Route exact path="/auth/toplist" element={auth ? <Toplist /> : <Navigate to="/login" />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
 
           <ToastContainer
             position="bottom-right"
-            autoClose={5000}
+            autoClose={2500}
             hideProgressBar
             newestOnTop
             limit={5}

@@ -1,21 +1,14 @@
 import styled from "styled-components"
 import fightBackground from 'assets/images/fight-background.jpg'
-import Resource from "components/game/resource/Resource"
 import { useEffect, useState, useRef } from "react"
-import axios from "axios"
-import { errorToast, infoToast, warningToast } from "components/common/Toast/Toast"
 
-import BuildMenu from "components/game/menus/BuildMenu"
-import FightMenu from "components/game/menus/FightMenu"
-
-import { HubConnectionBuilder } from '@microsoft/signalr'
 import { useDispatch, useSelector } from "react-redux"
-
-import { useNavigate } from "react-router"
 import Resources from "components/game/resource/Resources"
+import ConquerMenu from "components/game/menus/ConquerMenu"
+import { calcFood } from "utils/SGUtils"
 import { getAll } from "redux/slices/ResourceSlice"
 
-const FightPageWrapper = styled.div`
+const ConquerPageWrapper = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -23,7 +16,8 @@ const FightPageWrapper = styled.div`
 
     @media(min-width: 600px){
         
-    }`
+    }
+`
 
 const InnerMenuWrapper = styled.div`
     margin: 2rem 0;
@@ -43,7 +37,8 @@ const InnerMenuWrapper = styled.div`
     }
 `
 
-const FightPage = () => {
+const ConquerPage = () => {
+
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -52,14 +47,20 @@ const FightPage = () => {
 
     const resources = useSelector(store => store.resourceSliceReducer.get.response)
 
+    const [food, setFood] = useState(0)
+
+    useEffect(() => {
+        setFood(calcFood(resources))
+    }, [resources])
+
     return (
-        <FightPageWrapper>
+        <ConquerPageWrapper>
             <InnerMenuWrapper>
-                <FightMenu resources={resources} fetchData={() => dispatch(getAll())} />
+                <ConquerMenu food={food} fetchData={() => dispatch(getAll())} />
                 <Resources resources={resources} />
             </InnerMenuWrapper>
-        </FightPageWrapper>
+        </ConquerPageWrapper>
     );
 }
 
-export default FightPage
+export default ConquerPage

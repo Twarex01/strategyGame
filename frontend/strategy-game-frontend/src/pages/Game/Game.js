@@ -10,10 +10,14 @@ import BuildMenu from "components/game/menus/BuildMenu"
 import FightMenu from "components/game/menus/FightMenu"
 
 import { HubConnectionBuilder } from '@microsoft/signalr'
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 import { useNavigate } from "react-router"
 import Resources from "components/game/resource/Resources"
+import Connection from "signalr/Signalr"
+import { getAll } from "redux/slices/ResourceSlice"
+import FightStatus from "components/game/status/FightStatus"
+import GatheringStatus from "components/game/status/GatherStatus"
 
 
 const GameWrapper = styled.div`
@@ -42,83 +46,33 @@ const SceneWrapper = styled.div`
 
 `
 
-const ModalWrapper = styled.div`
+const StatusWrapper = styled.div`
     width: 100%;
-    max-width: 1000px;
-    z-index: 100;
-    background-image: url(${textBackground});
-    border-radius: 22px;
-    box-shadow: 22px 22px 22px rgba(0, 0, 0, 0.6);
-    padding: 1rem;
-    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 2rem;
 `
 
-
-
 const Game = () => {
-
-    const [resources, setResources] = useState([])
-    const [resErr, setResErr] = useState()
-    const [resLoading, setResLoading] = useState(false)
-
-    console.log({ resources })
-    const token = useSelector(store => store.persistedReducers.headerSliceReducer.token)
-
-    const fetchData = async () => {
-        try {
-            setResLoading(true)
-            const res = await axios.get(
-                'https://localhost:44365/api/resource/all',
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            )
-            console.log({ res })
-            setResources(res.data)
-            setResLoading(false)
-        } catch (err) {
-            errorToast(err)
-            console.log(err)
-            setResErr(err)
-        }
-    }
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        fetchData()
-        return () => {
-            setResources([])
-        }
+        dispatch(getAll())
     }, [])
 
-    useEffect(() => {
-        const connection = new HubConnectionBuilder()
-            .withUrl('https://localhost:44365/roundhub')
-            .withAutomaticReconnect()
-            .build();
+    const resources = useSelector(store => store.resourceSliceReducer.get.response)
 
-        connection.start()
-            .then(result => {
-                console.log('Connected!');
 
-                connection.on('TurnEnded', message => {
-                    console.log("Turn Ended")
-                    infoToast("A turn has ended!")
-                    fetchData()
-                });
-            })
-            .catch(e => console.log('Connection failed: ', e));
-        return () => {
-            if (connection) {
-                connection.on('TurnEnded', null)
-            }
-        }
-    }, []);
 
     return (
         <GameWrapper>
             <SceneWrapper>
+                <StatusWrapper>
+                    <GatheringStatus /> 
+                    <FightStatus />
+
+                </StatusWrapper>
                 <Resources resources={resources} />
             </SceneWrapper>
 

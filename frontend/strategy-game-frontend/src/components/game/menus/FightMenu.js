@@ -153,13 +153,19 @@ const FightMenu = (props) => {
     const token = useSelector(store => store.persistedReducers.headerSliceReducer.token)
 
 
-    const calcUnits = () => {
-        resources.forEach(resource => {
-            if (resource.type === 4) setUnits(resource.amount)
-        })
-    }
+
 
     useEffect(() => {
+        setResources(props.resources)
+    }, [props.resources])
+    useEffect(() => {
+        const calcUnits = () => {
+            resources.forEach(resource => {
+                if (resource.type === 4) {
+                    setUnits(resource.amount)
+                }
+            })
+        }
         calcUnits()
     }, [resources])
 
@@ -194,11 +200,6 @@ const FightMenu = (props) => {
 
     const [selected, setSelected] = useState({ idx: 0, amount: 1 })
 
-    useEffect(() => {
-        console.log(selected)
-    }, [selected])
-
-
     const [postGatherRes, setPostGatherRes] = useState()
     const [postGatherErr, setPostGatherErr] = useState()
     const [postGatherLoading, setPostGatherLoading] = useState(false)
@@ -210,7 +211,6 @@ const FightMenu = (props) => {
                 gatherId: `${gatheringOptions[selected.idx].id}`,
                 time: `${selected.amount}`,
             }
-            console.log(body)
             const res = await axios.post(
                 'https://localhost:44365/api/command/gather',
                 body,
@@ -243,7 +243,6 @@ const FightMenu = (props) => {
     const handlePostFight = async () => {
         try {
             setPostFightLoading(true)
-
             const res = await axios.post(
                 'https://localhost:44365/api/command/attack',
                 {
@@ -294,20 +293,6 @@ const FightMenu = (props) => {
                                 )
                             })
                         }
-                        {
-                            gatheringOptions.map((gathering, idx) => {
-                                return (
-                                    <GatheringOption key={`gathering_available_${gathering.id}_${idx}`} idx={idx} setSelected={setSelected} selected={selected.idx === idx} gathering={gathering} />
-                                )
-                            })
-                        }
-                        {
-                            gatheringOptions.map((gathering, idx) => {
-                                return (
-                                    <GatheringOption key={`gathering_available_${gathering.id}_${idx}`} idx={idx} setSelected={setSelected} selected={selected.idx === idx} gathering={gathering} />
-                                )
-                            })
-                        }
                     </ListWrapper>
 
                 </LeftSide>
@@ -317,13 +302,13 @@ const FightMenu = (props) => {
                     </MobileTitleWrapper>
 
                     <CustomSlider
-                        aria-label="Time"
+                        aria-label="Units"
                         defaultValue={1}
                         step={1}
                         min={1}
                         valueLabelDisplay="on"
-                        max={units ? units : 1}
-                        onChange={(e) => { setAtkAmount(e.target.value) }}
+                        max={units}
+                        onChange={(e, v) => setAtkAmount(v)}
                     />
                     <BattleText>Send {atkAmount} units to battle!</BattleText>
                 </RightSide>

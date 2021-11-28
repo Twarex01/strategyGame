@@ -179,10 +179,6 @@ const BuildMenu = (props) => {
 
     const [selected, setSelected] = useState(0)
 
-    useEffect(() => {
-        console.log(buildings[selected]?.id)
-    }, [selected])
-
     const [postRes, setPostRes] = useState()
     const [postErr, setPostErr] = useState()
     const [postLoading, setPostLoading] = useState(false)

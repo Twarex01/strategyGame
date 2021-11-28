@@ -8,50 +8,28 @@ const HeaderData = {
         {
             name: "Home",
             to: "/",
-            icon: <HomeIcon />,
-            onClick: (dispatch, setActive, idx) => {
-                dispatch(setActive(idx));
-            },
-            divider: false,
-            disabled: false,
         }
     ],
     optionsAuth: [
         {
             name: "Status",
             to: "/auth/game/status",
-            onClick: (dispatch, setActive, idx) => {
-                dispatch(setActive(idx));
-            },
-            divider: false,
-            disabled: false,
         },
         {
             name: "Build",
             to: "/auth/game/build",
-            onClick: (dispatch, setActive, idx) => {
-                dispatch(setActive(idx));
-            },
-            divider: false,
-            disabled: false,
         },
         {
             name: "Fight",
             to: "/auth/game/fight",
-            onClick: (dispatch, setActive, idx) => {
-                dispatch(setActive(idx));
-            },
-            divider: false,
-            disabled: false,
+        },
+        {
+            name: "Conquer",
+            to: "/auth/game/conquer",
         },
         {
             name: "Toplist",
             to: "/auth/toplist",
-            onClick: (dispatch, setActive, idx) => {
-                dispatch(setActive(idx));
-            },
-            divider: false,
-            disabled: false,
         }
     ],
 }

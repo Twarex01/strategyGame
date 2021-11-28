@@ -86,10 +86,17 @@ const calcGatheringName = (type) => {
     }
     return src
 }
+const calcFood = (resources) => {
+    let res = 0
+    resources.forEach(resource => {
+        if (resource.type === 3) res = resource.amount
+    })
+    return res
+}
 
 
 const calcName = (email) => {
     return email.split('@')[0]
 }
 
-export { calcBuildingName, calcOptionName, calcResourceName, calcName, calcGatheringName }
+export { calcBuildingName, calcOptionName, calcResourceName, calcName, calcGatheringName, calcFood }
