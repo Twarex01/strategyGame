@@ -9,12 +9,12 @@ const FooterData = {
                 {
                     name: "Laki Balázs",
                     icon: <FaUserAlt />,
-                    to: "#",
+                    to: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                 },
                 {
                     name: "Tóth Bence",
                     icon: <FaUserAlt />,
-                    to: "#",
+                    to: "https://www.youtube.com/watch?v=ZZ5LpwO-An4",
                 },
             ],
         },
