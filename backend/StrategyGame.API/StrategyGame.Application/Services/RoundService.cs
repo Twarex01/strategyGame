@@ -58,14 +58,14 @@ namespace StrategyGame.Application.Services
             {
                 int userScore = 0;
 
-                var resources = users.SelectMany(x => x.Resources);
+                var resources = user.Resources;
 
                 foreach (var resource in resources)
                 {
                     userScore += resource.Amount * resource.ResourceData.Value;
                 }
 
-                var buildings = users.SelectMany(x => x.Buildings);
+                var buildings = user.Buildings;
 
                 foreach (var building in buildings)
                 {
@@ -129,8 +129,8 @@ namespace StrategyGame.Application.Services
                         battleStore.Remove(battle);
 
                         //TODO: set claim
-                        await hubContext.Clients.User(battle.AtkPlayer.Id.ToString()).AttackEnded(attackSuccesful, atkUnitsLost);
-                        await hubContext.Clients.User(battle.DefPlayer.Id.ToString()).DefenseEnded(!attackSuccesful, defUnitsLost);
+                        await hubContext.Clients.All.AttackEnded(attackSuccesful, atkUnitsLost);
+                        await hubContext.Clients.All.DefenseEnded(!attackSuccesful, defUnitsLost);
                     }
                     else
                     {
@@ -168,7 +168,7 @@ namespace StrategyGame.Application.Services
 
                             gatheringStore.Remove(gathering);
 
-                            await hubContext.Clients.User(user.Id.ToString()).GatherDone();
+                            await hubContext.Clients.All.GatherDone();
                         }
                         else
                         {
