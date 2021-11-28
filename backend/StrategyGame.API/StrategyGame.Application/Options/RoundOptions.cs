@@ -15,5 +15,7 @@ namespace StrategyGame.Application.Options
         public int StealPow  {get; set; }
 
         public int LossPow  {get; set; }
+
+        public string TickIntervalInMinutes { get; set; }
     }
 }

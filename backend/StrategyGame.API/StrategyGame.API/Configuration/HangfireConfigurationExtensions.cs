@@ -35,7 +35,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
         public static IApplicationBuilder UseHangfireJobs(this IApplicationBuilder app, IRecurringJobManager jobManager, IConfiguration configuration)
         {
-            string cron = $"*/{configuration[key: "Tick:IntervalInMinutes"]} * * * *";
+            string cron = $"*/{configuration[key: "Round:TickIntervalInMinutes"]} * * * *";
 
             jobManager.AddOrUpdate<RoundTickJob>("tick", x => x.RunTick(), cron);
 

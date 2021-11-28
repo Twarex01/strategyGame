@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using StrategyGame.Application.Dtos;
+using StrategyGame.Application.Options;
 using StrategyGame.Application.ServiceInterfaces;
 using StrategyGame.Application.ViewModels;
 using StrategyGame.Common.Claims;
@@ -23,10 +25,18 @@ namespace StrategyGame.Application.Services
         private readonly IEntityStore<BuildingData> buildingDataStore;
         private readonly IEntityStore<TradeData> tradeDataStore;
         private readonly IEntityStore<Resource> resourceStore;
+        private readonly RoundOptions roundOptions;
 
         private readonly IClaimService claimService;
 
-        public CommandService(IEntityStore<Gathering> gatheringStore, IEntityStore<GatheringData> gatheringDataStore, IEntityStore<Building> buildingStore, IEntityStore<BuildingData> buildingDataStore, IEntityStore<TradeData> tradeDataStore, IEntityStore<Resource> resourceStore, IClaimService claimService)
+        public CommandService(IEntityStore<Gathering> gatheringStore,
+                              IEntityStore<GatheringData> gatheringDataStore,
+                              IEntityStore<Building> buildingStore,
+                              IEntityStore<BuildingData> buildingDataStore,
+                              IEntityStore<TradeData> tradeDataStore,
+                              IEntityStore<Resource> resourceStore,
+                              IClaimService claimService, 
+                              IOptionsSnapshot<RoundOptions> roundOptionsSnapshot)
         {
             this.gatheringStore = gatheringStore;
             this.gatheringDataStore = gatheringDataStore;
@@ -35,6 +45,7 @@ namespace StrategyGame.Application.Services
             this.tradeDataStore = tradeDataStore;
             this.resourceStore = resourceStore;
             this.claimService = claimService;
+            this.roundOptions = roundOptionsSnapshot.Value;
         }
 
         public async Task<IEnumerable<BuildingViewModel>> QueryBuildingActions(CancellationToken cancellationToken)
@@ -66,8 +77,7 @@ namespace StrategyGame.Application.Services
         {
             var userId = claimService.GetUserId();
 
-            //TODO config
-            return gatheringStore.GetQuery(false).Where(x => x.StrategyGameUserId == userId).Select(x => new GatheringProgressViewModel { resourceType = x.GatheringData.Type, TimeLeft = x.TicksLeft * 5}).FirstOrDefault();
+            return gatheringStore.GetQuery(false).Where(x => x.StrategyGameUserId == userId).Select(x => new GatheringProgressViewModel { resourceType = x.GatheringData.Type, TimeLeft = x.TicksLeft * int.Parse(roundOptions.TickIntervalInMinutes) }).FirstOrDefault();
         }
 
         public async Task<IEnumerable<TradeViewModel>> QueryTradeActions(CancellationToken cancellationToken)
