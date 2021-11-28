@@ -58,14 +58,14 @@ namespace StrategyGame.Application.Services
             {
                 int userScore = 0;
 
-                var resources = users.SelectMany(x => x.Resources);
+                var resources = user.Resources;
 
                 foreach (var resource in resources)
                 {
                     userScore += resource.Amount * resource.ResourceData.Value;
                 }
 
-                var buildings = users.SelectMany(x => x.Buildings);
+                var buildings = user.Buildings;
 
                 foreach (var building in buildings)
                 {
