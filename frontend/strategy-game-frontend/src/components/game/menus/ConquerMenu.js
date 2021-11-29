@@ -129,6 +129,39 @@ const ConquerMenu = (props) => {
 
     const token = useSelector(store => store.persistedReducers.headerSliceReducer.token)
 
+    const [optionRes, setOptionRes] = useState()
+    const [optionErr, setOptionErr] = useState()
+    const [optionLoading, setOptionLoading] = useState(false)
+
+    const fetchData = async () => {
+        try {
+            setOptionLoading(true)
+
+            const res = await axios.get(
+                'https://localhost:44365/api/command/trade/actions',
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            )
+            if (res.status === 200) {
+                successToast("Operation successful!")
+                props.fetchData()
+            }
+            setOptionLoading(false)
+            setOptionRes(res.data)
+            console.log(res)
+        } catch (err) {
+            errorToast(err)
+            setOptionErr(err)
+        }
+    }
+
+    useEffect(() => {
+        fetchData()
+    }, [])
+
     const [amount, setAmount] = useState(1)
 
     const [postRes, setPostRes] = useState()
@@ -142,7 +175,7 @@ const ConquerMenu = (props) => {
             const res = await axios.post(
                 'https://localhost:44365/api/command/trade',
                 {
-                    tradeId: "8fe04f5a-915d-434f-8a1c-08d9b0cc4d10",
+                    tradeId: `${optionRes[0].id}`,
                     amount: `${amount}`
                 },
                 {
